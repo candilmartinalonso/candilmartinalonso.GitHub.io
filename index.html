@@ -3,38 +3,56 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    
-    <!-- SEO Meta Tags -->
+
     <title>Martín Alonso Candil - Licenciado en Relaciones Laborales</title>
     <meta name="description" content="Licenciado en Relaciones Laborales con experiencia en optimización de procesos de selección, gestión del talento, y análisis de datos para impulsar la eficiencia organizacional.">
     <meta name="author" content="Martín Alonso Candil">
 
-    <!-- Preconnect for Google Fonts for faster loading -->
     <link rel="preconnect" href="https://fonts.googleapis.com">
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
     <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&display=swap" rel="stylesheet">
-    
-    <!-- Tailwind CSS CDN -->
     <script src="https://cdn.tailwindcss.com"></script>
-    
-    <!-- Lucide Icons -->
     <script src="https://unpkg.com/lucide@latest" defer></script>
 
     <style>
-        /* Fuentes y estilos base */
+        /* Fade-in en toda la página */
         body {
             font-family: 'Inter', sans-serif;
-            background-color: #f8fafc; /* slate-50 */
-            color: #334155; /* slate-700 */
+            background: linear-gradient(120deg, #f0fdfa 0%, #ccfbf1 100%);
+            background-attachment: fixed;
+            color: #334155;
+            opacity: 0;
+            animation: fadeInBody 1.5s ease forwards;
+        }
+        @keyframes fadeInBody {
+            from { opacity: 0; }
+            to { opacity: 1; }
+        }
+        html {}
+
+        /* Fondo partículas flotantes */
+        #particles-bg {
+            position: fixed;
+            inset: 0;
+            pointer-events: none;
+            z-index: 0;
+        }
+        .particle {
+            position: absolute;
+            border-radius: 50%;
+            opacity: 0.12;
+            animation: particle-float 20s infinite linear;
+        }
+        .particle-1 { width: 60px; height: 60px; left: 10vw; top: 20vh; background: #14b8a6; animation-delay: 0s; }
+        .particle-2 { width: 40px; height: 40px; left: 50vw; top: 70vh; background: #0d9488; animation-delay: 8s; }
+        .particle-3 { width: 80px; height: 80px; left: 80vw; top: 10vh; background: #99f6e4; animation-delay: 4s; }
+        @keyframes particle-float {
+            0% { transform: translateY(0) scale(1); }
+            50% { transform: translateY(-35px) scale(1.07); }
+            100% { transform: translateY(0) scale(1); }
         }
 
-        html {
-            /* Scroll-behavior es manejado por JS */
-        }
-        
         /* --- ANIMACIONES Y EFECTOS VISUALES --- */
-
-        /* Animación de aparición mejorada */
         .animate-on-scroll {
             opacity: 0;
             transform: translateY(30px);
@@ -43,6 +61,16 @@
         .animate-on-scroll.is-visible {
             opacity: 1;
             transform: translateY(0);
+        }
+        /* Animación extra para todas las secciones */
+        .main-section {
+            opacity: 0;
+            transform: translateY(40px) scale(0.97);
+            transition: opacity 0.8s cubic-bezier(0.23, 1, 0.32, 1), transform 0.8s cubic-bezier(0.23, 1, 0.32, 1);
+        }
+        .main-section.is-visible {
+            opacity: 1;
+            transform: translateY(0) scale(1);
         }
 
         /* Hero con gradiente y formas animadas */
@@ -72,20 +100,45 @@
             100% { transform: translateY(0px) translateX(0px) rotate(360deg); }
         }
 
-        /* Animación para el botón principal (CTA) */
-        @keyframes pulse-cta {
-            0% { transform: scale(1); box-shadow: 0 0 0 0 rgba(20, 184, 166, 0.7); }
-            70% { transform: scale(1.02); box-shadow: 0 0 0 12px rgba(20, 184, 166, 0); }
-            100% { transform: scale(1); box-shadow: 0 0 0 0 rgba(20, 184, 166, 0); }
-        }
+        /* Animación para el botón principal (CTA) con destello */
         .cta-button {
+            position: relative;
             transition: transform 0.3s ease;
         }
         .cta-button:hover {
             transform: translateY(-4px) scale(1.05);
         }
         .cta-button.is-visible {
-             animation: pulse-cta 2.5s infinite 1s;
+            animation: pulse-cta 2.5s infinite 1s;
+        }
+        .cta-button::after {
+            content: '';
+            position: absolute;
+            left: 0; top: 0;
+            width: 100%; height: 100%;
+            border-radius: inherit;
+            background: linear-gradient(135deg, rgba(255,255,255,0.23), transparent 70%);
+            opacity: 0;
+            pointer-events: none;
+            animation: cta-flash 2.3s infinite;
+        }
+        @keyframes pulse-cta {
+            0% { transform: scale(1); box-shadow: 0 0 0 0 rgba(20, 184, 166, 0.7); }
+            70% { transform: scale(1.02); box-shadow: 0 0 0 12px rgba(20, 184, 166, 0); }
+            100% { transform: scale(1); box-shadow: 0 0 0 0 rgba(20, 184, 166, 0); }
+        }
+        @keyframes cta-flash {
+            0%,100% { opacity: 0; }
+            60% { opacity: 0.4; }
+        }
+
+        /* Títulos con efecto de zoom al pasar el mouse */
+        h2, h3 {
+            transition: transform 0.3s, color 0.3s;
+        }
+        h2:hover, h3:hover {
+            transform: scale(1.07);
+            color: #14b8a6;
         }
 
         /* Línea de tiempo animada */
@@ -96,7 +149,6 @@
             transition: transform 1s cubic-bezier(0.645, 0.045, 0.355, 1);
         }
         .timeline-line.is-visible { transform: scaleY(1); }
-        
         .timeline-point {
             transform: scale(0);
             transition: transform 0.5s cubic-bezier(0.175, 0.885, 0.32, 1.275) 0.5s;
@@ -111,8 +163,8 @@
             transform: scale(1.15) rotate(-10deg);
         }
         .skill-icon-wrapper:hover .skill-icon {
-             background-color: #ccfbf1; /* teal-100 */
-             color: #0d9488; /* teal-600 */
+            background-color: #ccfbf1;
+            color: #0d9488;
         }
 
         /* Tarjetas con efecto de brillo y entrada animada */
@@ -150,7 +202,7 @@
 
         /* Navegación activa */
         .nav-link-active { color: #0d9488 !important; font-weight: 600; }
-        
+
         /* Subrayado animado para email */
         .animated-underline { position: relative; text-decoration: none; }
         .animated-underline::after {
@@ -159,10 +211,19 @@
             transition: transform 0.4s cubic-bezier(0.23, 1, 0.32, 1);
         }
         .animated-underline:hover::after { transform: scaleX(1); transform-origin: bottom left; }
+
+        /* Iconos sociales con animación */
+        [data-lucide] {
+            transition: transform 0.4s cubic-bezier(0.23,1,0.32,1), color 0.3s;
+        }
+        [data-lucide]:hover {
+            transform: rotate(-15deg) scale(1.18);
+            color: #14b8a6 !important;
+        }
     </style>
 </head>
 <body class="text-slate-700 antialiased">
-
+    <div id="particles-bg"></div>
     <!-- Header -->
     <header class="bg-white/80 backdrop-blur-sm sticky top-0 z-40 border-b border-gray-100">
         <nav role="navigation" class="container mx-auto px-6 py-5 flex justify-between items-center">
@@ -177,17 +238,16 @@
                 </div>
                 <div class="h-6 w-px bg-gray-200 mx-6"></div>
                 <div class="flex items-center space-x-4">
-                    <a href="https://www.linkedin.com/in/martinalonsocandil/" target="_blank" rel="noopener noreferrer" class="text-gray-400 hover:text-teal-600 transition duration-300" aria-label="LinkedIn Profile">
+                    <a href="https://www.linkedin.com/in/martinalonsocandil/" target="_blank" rel="noopener noreferrer" class="text-gray-400 hover:text-teal-600 transition duration-300" aria-label="LinkedIn">
                         <i data-lucide="linkedin" class="w-5 h-5"></i>
                     </a>
-                    <a href="https://www.facebook.com/martinalonsocandil" target="_blank" rel="noopener noreferrer" class="text-gray-400 hover:text-teal-600 transition duration-300" aria-label="Facebook Profile">
+                    <a href="https://www.facebook.com/martinalonsocandil" target="_blank" rel="noopener noreferrer" class="text-gray-400 hover:text-teal-600 transition duration-300" aria-label="Facebook">
                         <i data-lucide="facebook" class="w-5 h-5"></i>
                     </a>
-                    <a href="https://www.instagram.com/candilmartinalonso" target="_blank" rel="noopener noreferrer" class="text-gray-400 hover:text-teal-600 transition duration-300" aria-label="Instagram Profile">
+                    <a href="https://www.instagram.com/candilmartinalonso" target="_blank" rel="noopener noreferrer" class="text-gray-400 hover:text-teal-600 transition duration-300" aria-label="Instagram">
                         <i data-lucide="instagram" class="w-5 h-5"></i>
                     </a>
-                    <!-- Ícono de Carrito de Compras -->
-                    <a href="https://listado.mercadolibre.com.ar/_CustId_514808517" target="_blank" rel="noopener noreferrer" class="text-gray-400 hover:text-teal-600 transition duration-300" aria-label="Productos en Mercado Libre">
+                    <a href="https://listado.mercadolibre.com.ar/_CustId_514808517" target="_blank" rel="noopener noreferrer" class="text-gray-400 hover:text-teal-600 transition duration-300" aria-label="MercadoLibre">
                         <i data-lucide="shopping-cart" class="w-5 h-5"></i>
                     </a>
                 </div>
@@ -205,17 +265,16 @@
             <a href="#contacto" class="mobile-link nav-link block py-2 text-gray-700">Contacto</a>
             <div class="border-t border-gray-100 my-4"></div>
             <div class="flex justify-center space-x-6">
-                <a href="https://www.linkedin.com/in/martinalonsocandil/" target="_blank" rel="noopener noreferrer" class="text-gray-500 hover:text-teal-600 transition duration-300" aria-label="LinkedIn Profile">
+                <a href="https://www.linkedin.com/in/martinalonsocandil/" target="_blank" rel="noopener noreferrer" class="text-gray-500 hover:text-teal-600 transition duration-300" aria-label="LinkedIn">
                     <i data-lucide="linkedin" class="w-6 h-6"></i>
                 </a>
-                <a href="https://www.facebook.com/martinalonsocandil" target="_blank" rel="noopener noreferrer" class="text-gray-500 hover:text-teal-600 transition duration-300" aria-label="Facebook Profile">
+                <a href="https://www.facebook.com/martinalonsocandil" target="_blank" rel="noopener noreferrer" class="text-gray-500 hover:text-teal-600 transition duration-300" aria-label="Facebook">
                     <i data-lucide="facebook" class="w-6 h-6"></i>
                 </a>
-                <a href="https://www.instagram.com/candilmartinalonso" target="_blank" rel="noopener noreferrer" class="text-gray-500 hover:text-teal-600 transition duration-300" aria-label="Instagram Profile">
+                <a href="https://www.instagram.com/candilmartinalonso" target="_blank" rel="noopener noreferrer" class="text-gray-500 hover:text-teal-600 transition duration-300" aria-label="Instagram">
                     <i data-lucide="instagram" class="w-6 h-6"></i>
                 </a>
-                 <!-- Ícono de Carrito de Compras para móvil -->
-                   <a href="https://listado.mercadolibre.com.ar/_CustId_514808517" target="_blank" rel="noopener noreferrer" class="text-gray-500 hover:text-teal-600 transition duration-300" aria-label="Productos en Mercado Libre">
+                <a href="https://listado.mercadolibre.com.ar/_CustId_514808517" target="_blank" rel="noopener noreferrer" class="text-gray-500 hover:text-teal-600 transition duration-300" aria-label="MercadoLibre">
                     <i data-lucide="shopping-cart" class="w-6 h-6"></i>
                 </a>
             </div>
@@ -229,7 +288,7 @@
             <div class="shape shape-2"></div>
             <div class="container mx-auto px-6 py-28 md:py-40 text-center relative z-10">
                 <h1 class="text-4xl md:text-5xl font-extrabold text-teal-900 mb-5 leading-tight animate-on-scroll">Licenciado en Relaciones Laborales</h1>
-                <p class="text-lg md:text-xl text-teal-800 mb-10 max-w-3xl mx-auto leading-relaxed animate-on-scroll" style="transition-delay: 200ms;">Impulsando la eficiencia organizacional con estrategias efectivas de reclutamiento, gestión de talento y análisis de datos.</p>
+                <p class="text-lg md:text-xl text-teal-800 mb-10 max-w-3xl mx-auto leading-relaxed animate-on-scroll" style="transition-delay: 200ms;">Impulsando la eficiencia organizacional con estrategias innovadoras y gestión del talento.</p>
                 <a href="#contacto" class="cta-button bg-teal-600 text-white px-8 py-4 rounded-lg font-semibold shadow-lg animate-on-scroll" style="transition-delay: 400ms;">Ponerse en contacto</a>
             </div>
         </section>
@@ -240,9 +299,9 @@
                 <div class="max-w-3xl mx-auto text-center animate-on-scroll">
                     <h2 class="text-3xl md:text-4xl font-bold text-gray-900 mb-6">Sobre Mí</h2>
                     <div class="text-base md:text-lg text-gray-700 leading-relaxed space-y-5">
-                        <p>¡Hola! Soy Martín, Licenciado en Relaciones Laborales apasionado por la intersección entre el talento humano y los objetivos de negocio. Mi carrera se ha enfocado en diseñar y ejecutar estrategias de RRHH que no solo optimizan procesos, sino que también construyen una cultura organizacional sólida y productiva.</p>
-                        <p>Me especializo en el ciclo completo de vida del empleado, desde la atracción y selección de talento hasta la gestión de su desarrollo y la administración de las relaciones laborales. Mi enfoque es proactivo, buscando siempre anticipar necesidades y resolver conflictos de manera efectiva para garantizar un clima laboral positivo y el cumplimiento de la normativa vigente.</p>
-                        <p>Con una sólida experiencia en diversos sectores, mi objetivo es crear soluciones que aporten valor tangible, mejoren la experiencia del empleado y potencien el crecimiento sostenible de la empresa.</p>
+                        <p>¡Hola! Soy Martín, Licenciado en Relaciones Laborales apasionado por la intersección entre el talento humano y los objetivos de negocio. Mi carrera se ha enfocado en diseñar procesos eficientes y humanos.</p>
+                        <p>Me especializo en el ciclo completo de vida del empleado, desde la atracción y selección de talento hasta la gestión de su desarrollo y la administración de las relaciones laborales.</p>
+                        <p>Con una sólida experiencia en diversos sectores, mi objetivo es crear soluciones que aporten valor tangible, mejoren la experiencia del empleado y potencien el crecimiento organizacional.</p>
                     </div>
                 </div>
             </div>
@@ -329,27 +388,27 @@
                         <div class="skill-icon bg-teal-50 text-teal-700 w-20 h-20 rounded-full flex items-center justify-center mx-auto mb-4 transition-colors duration-300"><i data-lucide="users" class="w-10 h-10"></i></div>
                         <h3 class="font-semibold">Reclutamiento</h3>
                     </div>
-                     <div class="animate-on-scroll skill-icon-wrapper" style="transition-delay: 100ms;">
+                    <div class="animate-on-scroll skill-icon-wrapper" style="transition-delay: 100ms;">
                         <div class="skill-icon bg-teal-50 text-teal-700 w-20 h-20 rounded-full flex items-center justify-center mx-auto mb-4 transition-colors duration-300"><i data-lucide="scale" class="w-10 h-10"></i></div>
                         <h3 class="font-semibold">Legislación</h3>
                     </div>
-                     <div class="animate-on-scroll skill-icon-wrapper" style="transition-delay: 200ms;">
+                    <div class="animate-on-scroll skill-icon-wrapper" style="transition-delay: 200ms;">
                         <div class="skill-icon bg-teal-50 text-teal-700 w-20 h-20 rounded-full flex items-center justify-center mx-auto mb-4 transition-colors duration-300"><i data-lucide="handshake" class="w-10 h-10"></i></div>
                         <h3 class="font-semibold">Negociación</h3>
                     </div>
-                     <div class="animate-on-scroll skill-icon-wrapper" style="transition-delay: 300ms;">
+                    <div class="animate-on-scroll skill-icon-wrapper" style="transition-delay: 300ms;">
                         <div class="skill-icon bg-teal-50 text-teal-700 w-20 h-20 rounded-full flex items-center justify-center mx-auto mb-4 transition-colors duration-300"><i data-lucide="file-spreadsheet" class="w-10 h-10"></i></div>
                         <h3 class="font-semibold">Excel</h3>
                     </div>
-                     <div class="animate-on-scroll skill-icon-wrapper" style="transition-delay: 400ms;">
+                    <div class="animate-on-scroll skill-icon-wrapper" style="transition-delay: 400ms;">
                         <div class="skill-icon bg-teal-50 text-teal-700 w-20 h-20 rounded-full flex items-center justify-center mx-auto mb-4 transition-colors duration-300"><i data-lucide="megaphone" class="w-10 h-10"></i></div>
                         <h3 class="font-semibold">Marketing Digital</h3>
                     </div>
-                     <div class="animate-on-scroll skill-icon-wrapper" style="transition-delay: 500ms;">
+                    <div class="animate-on-scroll skill-icon-wrapper" style="transition-delay: 500ms;">
                         <div class="skill-icon bg-teal-50 text-teal-700 w-20 h-20 rounded-full flex items-center justify-center mx-auto mb-4 transition-colors duration-300"><i data-lucide="languages" class="w-10 h-10"></i></div>
                         <h3 class="font-semibold">Inglés</h3>
                     </div>
-                     <div class="animate-on-scroll skill-icon-wrapper" style="transition-delay: 600ms;">
+                    <div class="animate-on-scroll skill-icon-wrapper" style="transition-delay: 600ms;">
                         <div class="skill-icon bg-teal-50 text-teal-700 w-20 h-20 rounded-full flex items-center justify-center mx-auto mb-4 transition-colors duration-300"><i data-lucide="swords" class="w-10 h-10"></i></div>
                         <h3 class="font-semibold">Resolución de Conflictos</h3>
                     </div>
@@ -401,9 +460,9 @@
     <!-- Footer -->
     <footer class="bg-gray-50 border-t border-gray-100">
         <div class="container mx-auto px-6 py-8 flex flex-col sm:flex-row justify-between items-center">
-             <p class="text-gray-500 text-sm">&copy; 2024 Martín Alonso Candil</p>
-             <div class="flex space-x-5 mt-4 sm:mt-0">
-                <!-- Footer icons removed as they are in the header -->
+            <p class="text-gray-500 text-sm">&copy; 2024 Martín Alonso Candil</p>
+            <div class="flex space-x-5 mt-4 sm:mt-0">
+                <!-- Footer icons removed as they are in el header -->
             </div>
         </div>
     </footer>
@@ -417,10 +476,19 @@
         document.addEventListener('DOMContentLoaded', () => {
             lucide.createIcons();
 
+            // Partículas fondo animadas
+            const bg = document.getElementById('particles-bg');
+            if(bg) {
+                for(let i=1; i<=3; i++) {
+                    const p = document.createElement('div');
+                    p.className = `particle particle-${i}`;
+                    bg.appendChild(p);
+                }
+            }
+
             // Menú móvil
             const mobileMenuButton = document.getElementById('mobile-menu-button');
             const mobileMenu = document.getElementById('mobile-menu');
-            
             if (mobileMenuButton && mobileMenu) {
                 mobileMenuButton.addEventListener('click', () => {
                     const isExpanded = mobileMenuButton.getAttribute('aria-expanded') === 'true';
@@ -443,7 +511,12 @@
                     window.scrollTo({ top: 0, behavior: 'smooth' });
                 });
             }
-            
+
+            // Fondo degradado animado según scroll
+            window.addEventListener('scroll', () => {
+                document.body.style.backgroundPosition = `0 ${(window.scrollY/10)%100}%`;
+            });
+
             // Scroll suave para todos los links del nav
             const allNavLinks = document.querySelectorAll('a[href^="#"]');
             allNavLinks.forEach(link => {
@@ -476,13 +549,13 @@
                 });
             }, { threshold: 0.1 });
             document.querySelectorAll('.animate-on-scroll').forEach(el => animationObserver.observe(el));
-            
+            document.querySelectorAll('.main-section').forEach(el => animationObserver.observe(el));
+
             // Observer específico para la línea de tiempo
             const timelineObserver = new IntersectionObserver((entries, observer) => {
                 entries.forEach(entry => {
                     if (entry.isIntersecting) {
                         entry.target.classList.add('is-visible');
-                        // No des-observar para que la animación se repita si el usuario vuelve a scrollear
                     }
                 });
             }, { threshold: 0.5 });
