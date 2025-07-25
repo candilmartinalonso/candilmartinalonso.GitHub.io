@@ -13,7 +13,7 @@
     <link rel="preconnect" href="https://fonts.googleapis.com">
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
     <!-- Agregado font-display: swap para evitar el "flash de texto invisible" (FOIT) -->
-    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;700&display=swap" rel="stylesheet">
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;700;800&display=swap" rel="stylesheet">
     
     <!-- Tailwind CSS CDN (Para desarrollo. En producción, se recomienda purgar y servir localmente) -->
     <script src="https://cdn.tailwindcss.com"></script>
@@ -28,15 +28,55 @@
         }
         /* Clases de sección para consistencia */
         .section {
-            padding-top: 5rem; /* Aumentado el padding para más espacio */
+            padding-top: 5rem;
             padding-bottom: 5rem;
         }
         .section-title {
-            font-size: 2.5rem; /* Ligeramente más grande */
+            font-size: 2.5rem;
             font-weight: 700;
-            margin-bottom: 3rem; /* Más espacio debajo del título */
+            margin-bottom: 3rem;
             text-align: center;
-            color: #1a202c; /* Color más oscuro para el título */
+            color: #1a202c;
+        }
+
+        /* --- NUEVOS EFECTOS Y ANIMACIONES --- */
+
+        /* Keyframes para la animación del gradiente del Hero */
+        @keyframes background-pan {
+            0% { background-position: 0% 50%; }
+            50% { background-position: 100% 50%; }
+            100% { background-position: 0% 50%; }
+        }
+
+        /* Keyframes para la animación de aparición al hacer scroll */
+        @keyframes fadeInUp {
+            from {
+                opacity: 0;
+                transform: translateY(20px);
+            }
+            to {
+                opacity: 1;
+                transform: translateY(0);
+            }
+        }
+
+        /* Estilo para la sección Hero con gradiente animado */
+        #hero {
+            background: linear-gradient(270deg, #f0fdfa, #dcfce7, #ccfbf1, #a7f3d0);
+            background-size: 600% 600%;
+            animation: background-pan 16s ease infinite;
+        }
+        
+        /* Clase para los elementos que se animarán al hacer scroll */
+        .animate-on-scroll {
+            opacity: 0;
+            transition: opacity 0.6s ease-out, transform 0.6s ease-out;
+        }
+        /* Clase que se añade con JS cuando el elemento es visible */
+        .animate-on-scroll.is-visible {
+            opacity: 1;
+            transform: none;
+            animation: fadeInUp 0.7s ease-out forwards;
         }
 
         /* Estilos para el botón de "Volver Arriba" */
@@ -51,12 +91,13 @@
             padding: 0.75rem;
             border-radius: 9999px; /* Fully rounded */
             box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
-            transition: background-color 0.3s ease, transform 0.3s ease;
+            transition: all 0.3s ease;
             cursor: pointer;
         }
         #scrollTopButton:hover {
             background-color: #0f766e; /* teal-700 */
-            transform: translateY(-2px);
+            transform: translateY(-3px) scale(1.1);
+            box-shadow: 0 6px 12px rgba(0, 0, 0, 0.15);
         }
 
         /* Estilos específicos para las pestañas */
@@ -72,17 +113,20 @@
             display: block;
         }
 
-        /* Nuevos estilos para efectos de hover en tarjetas e iconos */
+        /* Estilos para efectos de hover en tarjetas e iconos */
+        .card-hover-effect {
+             transition: transform 0.3s ease, box-shadow 0.3s ease;
+        }
         .card-hover-effect:hover {
-            transform: translateY(-5px) scale(1.02);
-            box-shadow: 0 10px 15px rgba(0, 0, 0, 0.1);
+            transform: translateY(-8px) scale(1.03);
+            box-shadow: 0 12px 20px rgba(0, 0, 0, 0.1);
         }
 
         .icon-hover-effect {
             transition: transform 0.3s ease;
         }
         .icon-hover-effect:hover {
-            transform: scale(1.1);
+            transform: scale(1.15);
         }
     </style>
 </head>
@@ -118,13 +162,13 @@
             <a href="#habilidades-tab" class="block py-2 text-gray-700 hover:text-teal-600 transition duration-200">Habilidades</a>
             <a href="#contacto-tab" class="block py-2 text-gray-700 hover:text-teal-600 transition duration-200">Contacto</a>
             <div class="flex space-x-4 mt-3">
-                <a href="https://www.linkedin.com/in/martinalonsocandil/" target="_blank" rel="noopener noreferrer" class="text-teal-600 hover:underline font-medium icon-hover-effect">
+                <a href="https://www.linkedin.com/in/martinalonsocandil/" target="_blank" rel="noopener noreferrer" class="text-gray-700 hover:text-teal-600 transition duration-300 icon-hover-effect">
                     <i data-lucide="linkedin" class="w-6 h-6"></i>
                 </a>
-                <a href="https://www.facebook.com/martinalonsocandil" target="_blank" rel="noopener noreferrer" class="text-teal-600 hover:underline font-medium icon-hover-effect">
+                <a href="https://www.facebook.com/martinalonsocandil" target="_blank" rel="noopener noreferrer" class="text-gray-700 hover:text-teal-600 transition duration-300 icon-hover-effect">
                     <i data-lucide="facebook" class="w-6 h-6"></i>
                 </a>
-                <a href="https://www.instagram.com/candilmartinalonso" target="_blank" rel="noopener noreferrer" class="text-teal-600 hover:underline font-medium icon-hover-effect">
+                <a href="https://www.instagram.com/candilmartinalonso" target="_blank" rel="noopener noreferrer" class="text-gray-700 hover:text-teal-600 transition duration-300 icon-hover-effect">
                     <i data-lucide="instagram" class="w-6 h-6"></i>
                 </a>
             </div>
@@ -134,12 +178,12 @@
     <!-- Contenido Principal -->
     <main>
         <!-- Sección Hero -->
-        <section id="hero" class="bg-gradient-to-br from-teal-50 to-emerald-100">
+        <section id="hero">
             <div class="container mx-auto px-6 py-32 flex flex-col items-center justify-center min-h-[calc(100vh-80px)]">
                 <div class="w-full text-center">
-                    <h1 class="text-5xl md:text-6xl font-extrabold text-gray-900 mb-6 leading-tight">Licenciado en Relaciones Laborales</h1>
-                    <p class="text-xl text-gray-700 mb-10 max-w-4xl mx-auto leading-relaxed">Con experiencia en optimización de procesos de selección y gestión del talento. Mi objetivo es impulsar la eficiencia organizacional y fomentar un entorno colaborativo.</p>
-                    <a href="#contacto-tab" id="contact-me-button" class="bg-teal-600 text-white px-10 py-4 rounded-full font-bold text-lg hover:bg-teal-700 transition-all duration-300 hover:scale-105 inline-block shadow-lg hover:shadow-xl">Contáctame</a>
+                    <h1 class="text-5xl md:text-7xl font-extrabold text-gray-900 mb-6 leading-tight animate-on-scroll">Licenciado en Relaciones Laborales</h1>
+                    <p class="text-xl text-gray-700 mb-10 max-w-4xl mx-auto leading-relaxed animate-on-scroll" style="animation-delay: 150ms;">Con experiencia en optimización de procesos de selección y gestión del talento. Mi objetivo es impulsar la eficiencia organizacional y fomentar un entorno colaborativo.</p>
+                    <a href="#contacto-tab" id="contact-me-button" class="bg-teal-600 text-white px-10 py-4 rounded-full font-bold text-lg hover:bg-teal-700 transition-all duration-300 hover:scale-105 inline-block shadow-lg hover:shadow-xl animate-on-scroll" style="animation-delay: 300ms;">Contáctame</a>
                 </div>
             </div>
         </section>
@@ -160,8 +204,8 @@
                 <div id="tab-contents">
                     <!-- Presentación Tab -->
                     <div id="presentacion-tab" class="tab-content active" role="tabpanel" aria-labelledby="presentacion-tab-button">
-                        <h2 class="section-title text-gray-900">Sobre Mí</h2>
-                        <div class="max-w-3xl mx-auto text-center text-lg text-gray-700 leading-relaxed space-y-4">
+                        <h2 class="section-title text-gray-900 animate-on-scroll">Sobre Mí</h2>
+                        <div class="max-w-3xl mx-auto text-center text-lg text-gray-700 leading-relaxed space-y-4 animate-on-scroll">
                             <p>¡Hola! Soy Martín Alonso Candil, un Licenciado en Relaciones Laborales apasionado por optimizar los procesos de selección y la gestión del talento. Mi trayectoria profesional se ha centrado en impulsar la eficiencia organizacional y fomentar un entorno de trabajo colaborativo y productivo.</p>
                             <p>Cuento con experiencia en diversas áreas de Recursos Humanos, incluyendo reclutamiento, administración de nóminas, beneficios, y análisis de datos para la toma de decisiones estratégicas. Mi enfoque se basa en la mejora continua y en la creación de soluciones innovadoras que beneficien tanto a los empleados como a la empresa.</p>
                             <p>Me considero una persona proactiva, con excelentes habilidades de comunicación y capacidad para resolver conflictos. Siempre estoy en busca de nuevos desafíos que me permitan seguir creciendo profesionalmente y aportar valor a los equipos con los que colaboro.</p>
@@ -171,10 +215,10 @@
 
                     <!-- Experiencia Profesional Tab -->
                     <div id="experiencia-tab" class="tab-content" role="tabpanel" aria-labelledby="experiencia-tab-button">
-                        <h2 class="section-title text-gray-900">Experiencia Profesional</h2>
+                        <h2 class="section-title text-gray-900 animate-on-scroll">Experiencia Profesional</h2>
                         <div class="relative border-l-4 border-teal-300 ml-4 md:mx-auto md:max-w-3xl">
                             <!-- Job 1 -->
-                            <div class="mb-12 ml-8 bg-white p-6 rounded-xl shadow-lg transition-transform duration-300 hover:scale-[1.01] card-hover-effect">
+                            <div class="mb-12 ml-8 bg-white p-6 rounded-xl shadow-lg card-hover-effect animate-on-scroll">
                                 <span class="absolute flex items-center justify-center w-10 h-10 bg-teal-500 rounded-full -left-5 ring-8 ring-gray-100">
                                     <i data-lucide="briefcase" class="w-6 h-6 text-white"></i>
                                 </span>
@@ -186,7 +230,7 @@
                                 </ul>
                             </div>
                             <!-- Job 2 -->
-                            <div class="mb-12 ml-8 bg-white p-6 rounded-xl shadow-lg transition-transform duration-300 hover:scale-[1.01] card-hover-effect">
+                            <div class="mb-12 ml-8 bg-white p-6 rounded-xl shadow-lg card-hover-effect animate-on-scroll">
                                 <span class="absolute flex items-center justify-center w-10 h-10 bg-teal-500 rounded-full -left-5 ring-8 ring-gray-100">
                                     <i data-lucide="briefcase" class="w-6 h-6 text-white"></i>
                                 </span>
@@ -199,7 +243,7 @@
                                 </ul>
                             </div>
                             <!-- Job 3 -->
-                            <div class="mb-12 ml-8 bg-white p-6 rounded-xl shadow-lg transition-transform duration-300 hover:scale-[1.01] card-hover-effect">
+                            <div class="mb-12 ml-8 bg-white p-6 rounded-xl shadow-lg card-hover-effect animate-on-scroll">
                                 <span class="absolute flex items-center justify-center w-10 h-10 bg-teal-500 rounded-full -left-5 ring-8 ring-gray-100">
                                     <i data-lucide="briefcase" class="w-6 h-6 text-white"></i>
                                 </span>
@@ -211,7 +255,7 @@
                                 </ul>
                             </div>
                              <!-- Job 4 -->
-                            <div class="mb-12 ml-8 bg-white p-6 rounded-xl shadow-lg transition-transform duration-300 hover:scale-[1.01] card-hover-effect">
+                            <div class="mb-12 ml-8 bg-white p-6 rounded-xl shadow-lg card-hover-effect animate-on-scroll">
                                 <span class="absolute flex items-center justify-center w-10 h-10 bg-teal-500 rounded-full -left-5 ring-8 ring-gray-100">
                                     <i data-lucide="briefcase" class="w-6 h-6 text-white"></i>
                                 </span>
@@ -223,7 +267,7 @@
                                 </ul>
                             </div>
                              <!-- Job 5 -->
-                            <div class="ml-8 bg-white p-6 rounded-xl shadow-lg transition-transform duration-300 hover:scale-[1.01] card-hover-effect">
+                            <div class="ml-8 bg-white p-6 rounded-xl shadow-lg card-hover-effect animate-on-scroll">
                                 <span class="absolute flex items-center justify-center w-10 h-10 bg-teal-500 rounded-full -left-5 ring-8 ring-gray-100">
                                     <i data-lucide="briefcase" class="w-6 h-6 text-white"></i>
                                 </span>
@@ -240,38 +284,38 @@
 
                     <!-- Formación Académica Tab -->
                     <div id="formacion-tab" class="tab-content" role="tabpanel" aria-labelledby="formacion-tab-button">
-                        <h2 class="section-title text-gray-900">Formación Académica</h2>
+                        <h2 class="section-title text-gray-900 animate-on-scroll">Formación Académica</h2>
                         <div class="grid md:grid-cols-2 lg:grid-cols-3 gap-8">
                             <!-- Education Card with hover effect -->
-                            <div class="bg-gray-50 p-7 rounded-xl shadow-lg transition-transform duration-300 hover:-translate-y-2 hover:shadow-xl card-hover-effect">
+                            <div class="bg-white p-7 rounded-xl shadow-lg card-hover-effect animate-on-scroll">
                                 <div class="flex items-center mb-4">
                                     <i data-lucide="graduation-cap" class="w-9 h-9 text-teal-600 mr-4 icon-hover-effect"></i>
                                     <h3 class="text-lg font-semibold text-gray-900">Licenciatura en Relaciones Laborales</h3>
                                 </div>
                                 <p class="text-gray-700">Universidad Nacional de Lomas de Zamora (2014 - 2023)</p>
                             </div>
-                            <div class="bg-gray-50 p-7 rounded-xl shadow-lg transition-transform duration-300 hover:-translate-y-2 hover:shadow-xl card-hover-effect">
+                            <div class="bg-white p-7 rounded-xl shadow-lg card-hover-effect animate-on-scroll">
                                 <div class="flex items-center mb-4">
                                     <i data-lucide="award" class="w-9 h-9 text-teal-600 mr-4 icon-hover-effect"></i>
                                     <h3 class="text-lg font-semibold text-gray-900">Liquidación de Sueldos y Jornales</h3>
                                 </div>
                                 <p class="text-gray-700">Universidad Nacional de Lanús (2014 - 2015)</p>
                             </div>
-                            <div class="bg-gray-50 p-7 rounded-xl shadow-lg transition-transform duration-300 hover:-translate-y-2 hover:shadow-xl card-hover-effect">
+                            <div class="bg-white p-7 rounded-xl shadow-lg card-hover-effect animate-on-scroll">
                                 <div class="flex items-center mb-4">
                                     <i data-lucide="award" class="w-9 h-9 text-teal-600 mr-4 icon-hover-effect"></i>
                                     <h3 class="text-lg font-semibold text-gray-900">Manejo del sistema Tango Gestión</h3>
                                 </div>
                                 <p class="text-gray-700">Universidad Nacional de Lanús</p>
                             </div>
-                            <div class="bg-gray-50 p-7 rounded-xl shadow-lg transition-transform duration-300 hover:-translate-y-2 hover:shadow-xl card-hover-effect">
+                            <div class="bg-white p-7 rounded-xl shadow-lg card-hover-effect animate-on-scroll">
                                 <div class="flex items-center mb-4">
                                     <i data-lucide="award" class="w-9 h-9 text-teal-600 mr-4 icon-hover-effect"></i>
                                     <h3 class="text-lg font-semibold text-gray-900">Manejo Avanzado de Excel</h3>
                                 </div>
                                 <p class="text-gray-700">Instituto Argentino de Computación (2018 - 2019)</p>
                             </div>
-                            <div class="bg-gray-50 p-7 rounded-xl shadow-lg transition-transform duration-300 hover:-translate-y-2 hover:shadow-xl card-hover-effect">
+                            <div class="bg-white p-7 rounded-xl shadow-lg card-hover-effect animate-on-scroll">
                                 <div class="flex items-center mb-4">
                                     <i data-lucide="award" class="w-9 h-9 text-teal-600 mr-4 icon-hover-effect"></i>
                                     <h3 class="text-lg font-semibold text-gray-900">Marketing Digital</h3>
@@ -283,30 +327,30 @@
 
                     <!-- Habilidades Clave Tab -->
                     <div id="habilidades-tab" class="tab-content" role="tabpanel" aria-labelledby="habilidades-tab-button">
-                        <h2 class="section-title text-gray-900">Habilidades Clave</h2>
+                        <h2 class="section-title text-gray-900 animate-on-scroll">Habilidades Clave</h2>
                         <div class="grid grid-cols-2 md:grid-cols-3 lg:grid-cols-6 gap-6 text-center">
                             <!-- Skill Card with hover effect -->
-                            <div class="bg-white p-7 rounded-xl shadow-lg flex flex-col items-center justify-center transition-transform duration-300 hover:-translate-y-2 hover:shadow-xl card-hover-effect">
+                            <div class="bg-white p-7 rounded-xl shadow-lg flex flex-col items-center justify-center card-hover-effect animate-on-scroll">
                                 <i data-lucide="users" class="w-14 h-14 text-teal-600 mb-4 icon-hover-effect"></i>
                                 <span class="font-semibold text-gray-800">Reclutamiento y Selección</span>
                             </div>
-                            <div class="bg-white p-7 rounded-xl shadow-lg flex flex-col items-center justify-center transition-transform duration-300 hover:-translate-y-2 hover:shadow-xl card-hover-effect">
+                            <div class="bg-white p-7 rounded-xl shadow-lg flex flex-col items-center justify-center card-hover-effect animate-on-scroll">
                                 <i data-lucide="clipboard-list" class="w-14 h-14 text-teal-600 mb-4 icon-hover-effect"></i>
                                 <span class="font-semibold text-gray-800">Gestión de RRHH</span>
                             </div>
-                            <div class="bg-white p-7 rounded-xl shadow-lg flex flex-col items-center justify-center transition-transform duration-300 hover:-translate-y-2 hover:shadow-xl card-hover-effect">
+                            <div class="bg-white p-7 rounded-xl shadow-lg flex flex-col items-center justify-center card-hover-effect animate-on-scroll">
                                 <i data-lucide="swords" class="w-14 h-14 text-teal-600 mb-4 icon-hover-effect"></i>
                                 <span class="font-semibold text-gray-800">Resolución de Conflictos</span>
                             </div>
-                            <div class="bg-white p-7 rounded-xl shadow-lg flex flex-col items-center justify-center transition-transform duration-300 hover:-translate-y-2 hover:shadow-xl card-hover-effect">
+                            <div class="bg-white p-7 rounded-xl shadow-lg flex flex-col items-center justify-center card-hover-effect animate-on-scroll">
                                 <i data-lucide="file-spreadsheet" class="w-14 h-14 text-teal-600 mb-4 icon-hover-effect"></i>
                                 <span class="font-semibold text-gray-800">Excel Avanzado</span>
                             </div>
-                            <div class="bg-white p-7 rounded-xl shadow-lg flex flex-col items-center justify-center transition-transform duration-300 hover:-translate-y-2 hover:shadow-xl card-hover-effect">
+                            <div class="bg-white p-7 rounded-xl shadow-lg flex flex-col items-center justify-center card-hover-effect animate-on-scroll">
                                 <i data-lucide="megaphone" class="w-14 h-14 text-teal-600 mb-4 icon-hover-effect"></i>
                                 <span class="font-semibold text-gray-800">Marketing Digital</span>
                             </div>
-                            <div class="bg-white p-7 rounded-xl shadow-lg flex flex-col items-center justify-center transition-transform duration-300 hover:-translate-y-2 hover:shadow-xl card-hover-effect">
+                            <div class="bg-white p-7 rounded-xl shadow-lg flex flex-col items-center justify-center card-hover-effect animate-on-scroll">
                                 <i data-lucide="languages" class="w-14 h-14 text-teal-600 mb-4 icon-hover-effect"></i>
                                 <span class="font-semibold text-gray-800">Inglés Fluido</span>
                             </div>
@@ -315,12 +359,12 @@
 
                     <!-- Contacto Tab -->
                     <div id="contacto-tab" class="tab-content" role="tabpanel" aria-labelledby="contacto-tab-button">
-                        <h2 class="section-title text-gray-900">Contacto</h2>
+                        <h2 class="section-title text-gray-900 animate-on-scroll">Contacto</h2>
                         <div class="max-w-lg mx-auto text-center">
-                            <p class="text-lg text-gray-700 mb-10 leading-relaxed">
+                            <p class="text-lg text-gray-700 mb-10 leading-relaxed animate-on-scroll">
                                 Estoy disponible para nuevas oportunidades y colaboraciones. No dudes en contactarme.
                             </p>
-                            <div class="flex flex-wrap justify-center items-center gap-6">
+                            <div class="flex flex-wrap justify-center items-center gap-6 animate-on-scroll">
                                 <a href="mailto:candilmartinalonso@gmail.com" class="flex items-center text-xl text-gray-800 hover:text-teal-600 group transition duration-300 icon-hover-effect">
                                     <i data-lucide="mail" class="w-7 h-7 mr-3 text-teal-600 group-hover:text-teal-700 transition duration-300"></i>
                                     <span class="group-hover:underline font-medium">candilmartinalonso@gmail.com</span>
@@ -400,9 +444,12 @@
 
                 if (activeTabContent) {
                     activeTabContent.classList.add('active');
-                    // Solo desplázate si es la pestaña de contacto y si no estamos ya en ella
-                    if (tabId === 'contacto-tab') {
-                        activeTabContent.scrollIntoView({ behavior: 'smooth', block: 'start' });
+                    // Solo desplázate si no es la primera pestaña
+                    if (tabId !== 'presentacion-tab') {
+                         // Pequeño retraso para asegurar que el contenido es visible antes de hacer scroll
+                        setTimeout(() => {
+                            activeTabContent.scrollIntoView({ behavior: 'smooth', block: 'start' });
+                        }, 100);
                     }
                 }
                 if (activeTabButton) {
@@ -413,7 +460,8 @@
 
             // Manejar clics en los botones de las pestañas
             tabButtons.forEach(button => {
-                button.addEventListener('click', () => {
+                button.addEventListener('click', (event) => {
+                    event.preventDefault();
                     const tabId = button.dataset.tab;
                     showTab(tabId);
                 });
@@ -439,6 +487,25 @@
                     showTab('contacto-tab'); // Activar la pestaña de Contacto y desplazar a ella
                 });
             }
+
+            // --- NUEVO SCRIPT PARA ANIMACIONES EN SCROLL ---
+            const observer = new IntersectionObserver((entries) => {
+                entries.forEach(entry => {
+                    // Cuando el elemento entra en el viewport
+                    if (entry.isIntersecting) {
+                        entry.target.classList.add('is-visible');
+                    }
+                });
+            }, {
+                threshold: 0.1 // Inicia la animación cuando el 10% del elemento es visible
+            });
+
+            // Observar todos los elementos con la clase .animate-on-scroll
+            const elementsToAnimate = document.querySelectorAll('.animate-on-scroll');
+            elementsToAnimate.forEach(el => {
+                observer.observe(el);
+            });
+
 
             // Mostrar la pestaña inicial al cargar la página (Presentación)
             showTab('presentacion-tab');
