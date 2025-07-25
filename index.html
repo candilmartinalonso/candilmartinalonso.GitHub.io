@@ -1,12 +1,448 @@
 <!DOCTYPE html>
-<html lang="es">
+<html lang="es" class="scroll-smooth">
 <head>
-  <meta charset="UTF-8">
-  <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>Mi Sitio Web</title>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    
+    <!-- SEO Meta Tags -->
+    <title>Martín Alonso Candil - Licenciado en Relaciones Laborales</title>
+    <meta name="description" content="Licenciado en Relaciones Laborales con experiencia en optimización de procesos de selección, gestión del talento, nóminas y análisis de datos para impulsar la eficiencia organizacional.">
+    <meta name="author" content="Martín Alonso Candil">
+
+    <!-- Preconnect for Google Fonts for faster loading -->
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <!-- Agregado font-display: swap para evitar el "flash de texto invisible" (FOIT) -->
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;700&display=swap" rel="stylesheet">
+    
+    <!-- Tailwind CSS CDN (Para desarrollo. En producción, se recomienda purgar y servir localmente) -->
+    <script src="https://cdn.tailwindcss.com"></script>
+    
+    <!-- Lucide Icons (cargado con defer para no bloquear el renderizado) -->
+    <script src="https://unpkg.com/lucide@latest" defer></script>
+
+    <style>
+        /* Fuentes y estilos base */
+        body {
+            font-family: 'Inter', sans-serif;
+        }
+        /* Clases de sección para consistencia */
+        .section {
+            padding-top: 5rem; /* Aumentado el padding para más espacio */
+            padding-bottom: 5rem;
+        }
+        .section-title {
+            font-size: 2.5rem; /* Ligeramente más grande */
+            font-weight: 700;
+            margin-bottom: 3rem; /* Más espacio debajo del título */
+            text-align: center;
+            color: #1a202c; /* Color más oscuro para el título */
+        }
+
+        /* Estilos para el botón de "Volver Arriba" */
+        #scrollTopButton {
+            display: none; /* Oculto por defecto */
+            position: fixed;
+            bottom: 20px;
+            right: 20px;
+            z-index: 1000;
+            background-color: #0d9488; /* teal-600 */
+            color: white;
+            padding: 0.75rem;
+            border-radius: 9999px; /* Fully rounded */
+            box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+            transition: background-color 0.3s ease, transform 0.3s ease;
+            cursor: pointer;
+        }
+        #scrollTopButton:hover {
+            background-color: #0f766e; /* teal-700 */
+            transform: translateY(-2px);
+        }
+
+        /* Estilos específicos para las pestañas */
+        .tab-button.active {
+            border-bottom-color: #0d9488; /* teal-600 */
+            color: #0d9488; /* teal-600 */
+            font-weight: 600;
+        }
+        .tab-content {
+            display: none; /* Oculto por defecto para el sistema de pestañas */
+        }
+        .tab-content.active {
+            display: block;
+        }
+
+        /* Nuevos estilos para efectos de hover en tarjetas e iconos */
+        .card-hover-effect:hover {
+            transform: translateY(-5px) scale(1.02);
+            box-shadow: 0 10px 15px rgba(0, 0, 0, 0.1);
+        }
+
+        .icon-hover-effect {
+            transition: transform 0.3s ease;
+        }
+        .icon-hover-effect:hover {
+            transform: scale(1.1);
+        }
+    </style>
 </head>
-<body>
-  <h1>¡Hola, mundo!</h1>
-  <p>Bienvenido a mi sitio web alojado en GitHub Pages.</p>
+<body class="bg-gray-50 text-gray-800 antialiased">
+
+    <!-- Header con mejoras de accesibilidad y diseño -->
+    <header class="bg-white/90 backdrop-blur-md shadow-lg sticky top-0 z-50 border-b border-gray-100">
+        <nav role="navigation" class="container mx-auto px-6 py-4 flex justify-between items-center">
+            <a href="#" class="text-2xl font-extrabold text-gray-900 tracking-tight">Martín Alonso Candil</a>
+            <!-- Solo los iconos de redes sociales en la cabecera principal -->
+            <div class="hidden md:flex items-center space-x-4">
+                <a href="https://www.linkedin.com/in/martinalonsocandil/" target="_blank" rel="noopener noreferrer" class="text-gray-700 hover:text-teal-600 transition duration-300 icon-hover-effect">
+                    <i data-lucide="linkedin" class="w-6 h-6"></i>
+                </a>
+                <a href="https://www.facebook.com/martinalonsocandil" target="_blank" rel="noopener noreferrer" class="text-gray-700 hover:text-teal-600 transition duration-300 icon-hover-effect">
+                    <i data-lucide="facebook" class="w-6 h-6"></i>
+                </a>
+                <a href="https://www.instagram.com/candilmartinalonso" target="_blank" rel="noopener noreferrer" class="text-gray-700 hover:text-teal-600 transition duration-300 icon-hover-effect">
+                    <i data-lucide="instagram" class="w-6 h-6"></i>
+                </a>
+            </div>
+            <!-- Botón de menú móvil con atributos ARIA para accesibilidad -->
+            <button id="mobile-menu-button" class="md:hidden p-2 rounded-md text-gray-700 hover:bg-gray-100 focus:outline-none focus:ring-2 focus:ring-teal-500" aria-label="Abrir menú de navegación" aria-controls="mobile-menu" aria-expanded="false">
+                <i data-lucide="menu" class="w-7 h-7"></i>
+            </button>
+        </nav>
+        <!-- Menú Móvil -->
+        <div id="mobile-menu" class="hidden md:hidden px-6 pb-4 bg-white border-t border-gray-100">
+            <!-- Los enlaces del menú móvil también apuntan a las pestañas -->
+            <a href="#presentacion-tab" class="block py-2 text-gray-700 hover:text-teal-600 transition duration-200">Presentación</a>
+            <a href="#experiencia-tab" class="block py-2 text-gray-700 hover:text-teal-600 transition duration-200">Experiencia</a>
+            <a href="#formacion-tab" class="block py-2 text-gray-700 hover:text-teal-600 transition duration-200">Formación</a>
+            <a href="#habilidades-tab" class="block py-2 text-gray-700 hover:text-teal-600 transition duration-200">Habilidades</a>
+            <a href="#contacto-tab" class="block py-2 text-gray-700 hover:text-teal-600 transition duration-200">Contacto</a>
+            <div class="flex space-x-4 mt-3">
+                <a href="https://www.linkedin.com/in/martinalonsocandil/" target="_blank" rel="noopener noreferrer" class="text-teal-600 hover:underline font-medium icon-hover-effect">
+                    <i data-lucide="linkedin" class="w-6 h-6"></i>
+                </a>
+                <a href="https://www.facebook.com/martinalonsocandil" target="_blank" rel="noopener noreferrer" class="text-teal-600 hover:underline font-medium icon-hover-effect">
+                    <i data-lucide="facebook" class="w-6 h-6"></i>
+                </a>
+                <a href="https://www.instagram.com/candilmartinalonso" target="_blank" rel="noopener noreferrer" class="text-teal-600 hover:underline font-medium icon-hover-effect">
+                    <i data-lucide="instagram" class="w-6 h-6"></i>
+                </a>
+            </div>
+        </div>
+    </header>
+
+    <!-- Contenido Principal -->
+    <main>
+        <!-- Sección Hero -->
+        <section id="hero" class="bg-gradient-to-br from-teal-50 to-emerald-100">
+            <div class="container mx-auto px-6 py-32 flex flex-col items-center justify-center min-h-[calc(100vh-80px)]">
+                <div class="w-full text-center">
+                    <h1 class="text-5xl md:text-6xl font-extrabold text-gray-900 mb-6 leading-tight">Licenciado en Relaciones Laborales</h1>
+                    <p class="text-xl text-gray-700 mb-10 max-w-4xl mx-auto leading-relaxed">Con experiencia en optimización de procesos de selección y gestión del talento. Mi objetivo es impulsar la eficiencia organizacional y fomentar un entorno colaborativo.</p>
+                    <a href="#contacto-tab" id="contact-me-button" class="bg-teal-600 text-white px-10 py-4 rounded-full font-bold text-lg hover:bg-teal-700 transition-all duration-300 hover:scale-105 inline-block shadow-lg hover:shadow-xl">Contáctame</a>
+                </div>
+            </div>
+        </section>
+
+        <!-- Sección de Pestañas -->
+        <section id="main-tabs" class="bg-gray-50 py-16">
+            <div class="container mx-auto px-6">
+                <!-- Navegación de Pestañas -->
+                <div class="flex flex-wrap justify-center border-b border-gray-200 mb-12" role="tablist">
+                    <button class="tab-button py-4 px-6 text-lg text-gray-600 hover:text-teal-600 border-b-2 border-transparent transition duration-300 focus:outline-none" data-tab="presentacion-tab" role="tab" aria-controls="presentacion-tab" aria-selected="true">Presentación</button>
+                    <button class="tab-button py-4 px-6 text-lg text-gray-600 hover:text-teal-600 border-b-2 border-transparent transition duration-300 focus:outline-none" data-tab="experiencia-tab" role="tab" aria-controls="experiencia-tab" aria-selected="false">Experiencia Profesional</button>
+                    <button class="tab-button py-4 px-6 text-lg text-gray-600 hover:text-teal-600 border-b-2 border-transparent transition duration-300 focus:outline-none" data-tab="formacion-tab" role="tab" aria-controls="formacion-tab" aria-selected="false">Formación Académica</button>
+                    <button class="tab-button py-4 px-6 text-lg text-gray-600 hover:text-teal-600 border-b-2 border-transparent transition duration-300 focus:outline-none" data-tab="habilidades-tab" role="tab" aria-controls="habilidades-tab" aria-selected="false">Habilidades Clave</button>
+                    <button class="tab-button py-4 px-6 text-lg text-gray-600 hover:text-teal-600 border-b-2 border-transparent transition duration-300 focus:outline-none" data-tab="contacto-tab" role="tab" aria-controls="contacto-tab" aria-selected="false">Contacto</button>
+                </div>
+
+                <!-- Contenido de las Pestañas -->
+                <div id="tab-contents">
+                    <!-- Presentación Tab -->
+                    <div id="presentacion-tab" class="tab-content active" role="tabpanel" aria-labelledby="presentacion-tab-button">
+                        <h2 class="section-title text-gray-900">Sobre Mí</h2>
+                        <div class="max-w-3xl mx-auto text-center text-lg text-gray-700 leading-relaxed space-y-4">
+                            <p>¡Hola! Soy Martín Alonso Candil, un Licenciado en Relaciones Laborales apasionado por optimizar los procesos de selección y la gestión del talento. Mi trayectoria profesional se ha centrado en impulsar la eficiencia organizacional y fomentar un entorno de trabajo colaborativo y productivo.</p>
+                            <p>Cuento con experiencia en diversas áreas de Recursos Humanos, incluyendo reclutamiento, administración de nóminas, beneficios, y análisis de datos para la toma de decisiones estratégicas. Mi enfoque se basa en la mejora continua y en la creación de soluciones innovadoras que beneficien tanto a los empleados como a la empresa.</p>
+                            <p>Me considero una persona proactiva, con excelentes habilidades de comunicación y capacidad para resolver conflictos. Siempre estoy en busca de nuevos desafíos que me permitan seguir creciendo profesionalmente y aportar valor a los equipos con los que colaboro.</p>
+                            <p>¡Explora mi perfil para conocer más sobre mi experiencia y habilidades!</p>
+                        </div>
+                    </div>
+
+                    <!-- Experiencia Profesional Tab -->
+                    <div id="experiencia-tab" class="tab-content" role="tabpanel" aria-labelledby="experiencia-tab-button">
+                        <h2 class="section-title text-gray-900">Experiencia Profesional</h2>
+                        <div class="relative border-l-4 border-teal-300 ml-4 md:mx-auto md:max-w-3xl">
+                            <!-- Job 1 -->
+                            <div class="mb-12 ml-8 bg-white p-6 rounded-xl shadow-lg transition-transform duration-300 hover:scale-[1.01] card-hover-effect">
+                                <span class="absolute flex items-center justify-center w-10 h-10 bg-teal-500 rounded-full -left-5 ring-8 ring-gray-100">
+                                    <i data-lucide="briefcase" class="w-6 h-6 text-white"></i>
+                                </span>
+                                <h3 class="flex items-center mb-2 text-xl font-bold text-gray-900">Responsable de Recursos Humanos <span class="bg-teal-100 text-teal-800 text-sm font-semibold px-3 py-1 rounded-full ml-4">Más Reciente</span></h3>
+                                <time class="block mb-3 text-sm font-normal leading-none text-gray-600">Dental Brackets | 07/2023 - 02/2024</time>
+                                <ul class="list-disc list-inside text-gray-700 space-y-1.5">
+                                    <li>Coordinación de recursos humanos, administración de nóminas y beneficios.</li>
+                                    <li>Manejo de relaciones laborales.</li>
+                                </ul>
+                            </div>
+                            <!-- Job 2 -->
+                            <div class="mb-12 ml-8 bg-white p-6 rounded-xl shadow-lg transition-transform duration-300 hover:scale-[1.01] card-hover-effect">
+                                <span class="absolute flex items-center justify-center w-10 h-10 bg-teal-500 rounded-full -left-5 ring-8 ring-gray-100">
+                                    <i data-lucide="briefcase" class="w-6 h-6 text-white"></i>
+                                </span>
+                                <h3 class="text-xl font-bold text-gray-900 mb-2">Analista de Recursos Humanos</h3>
+                                <time class="block mb-3 text-sm font-normal leading-none text-gray-600">Priority Home Care | 09/2022 - 07/2023</time>
+                                <ul class="list-disc list-inside text-gray-700 space-y-1.5">
+                                    <li>Lideré procesos de reclutamiento y selección de personal.</li>
+                                    <li>Gestioné nóminas y beneficios para empleados.</li>
+                                    <li>Realicé análisis de datos sobre recursos humanos.</li>
+                                </ul>
+                            </div>
+                            <!-- Job 3 -->
+                            <div class="mb-12 ml-8 bg-white p-6 rounded-xl shadow-lg transition-transform duration-300 hover:scale-[1.01] card-hover-effect">
+                                <span class="absolute flex items-center justify-center w-10 h-10 bg-teal-500 rounded-full -left-5 ring-8 ring-gray-100">
+                                    <i data-lucide="briefcase" class="w-6 h-6 text-white"></i>
+                                </span>
+                                <h3 class="text-xl font-bold text-gray-900 mb-2">Analista de Recursos Humanos</h3>
+                                <time class="block mb-3 text-sm font-normal leading-none text-gray-600">South America Implants | 01/2022 - 04/2022</time>
+                                <ul class="list-disc list-inside text-gray-700 space-y-1.5">
+                                    <li>Analicé datos de RRHH para desarrollar estrategias efectivas.</li>
+                                    <li>Transformé procesos para mejorar la eficiencia organizacional.</li>
+                                </ul>
+                            </div>
+                             <!-- Job 4 -->
+                            <div class="mb-12 ml-8 bg-white p-6 rounded-xl shadow-lg transition-transform duration-300 hover:scale-[1.01] card-hover-effect">
+                                <span class="absolute flex items-center justify-center w-10 h-10 bg-teal-500 rounded-full -left-5 ring-8 ring-gray-100">
+                                    <i data-lucide="briefcase" class="w-6 h-6 text-white"></i>
+                                </span>
+                                <h3 class="text-xl font-bold text-gray-900 mb-2">Analista de Recursos Humanos</h3>
+                                <time class="block mb-3 text-sm font-normal leading-none text-gray-600">Country Golf El Sosiego | 12/2020 - 05/2021</time>
+                                <ul class="list-disc list-inside text-gray-700 space-y-1.5">
+                                    <li>Gestión de recursos humanos, incluyendo reclutamiento y selección.</li>
+                                    <li>Manejo de relaciones laborales.</li>
+                                </ul>
+                            </div>
+                             <!-- Job 5 -->
+                            <div class="ml-8 bg-white p-6 rounded-xl shadow-lg transition-transform duration-300 hover:scale-[1.01] card-hover-effect">
+                                <span class="absolute flex items-center justify-center w-10 h-10 bg-teal-500 rounded-full -left-5 ring-8 ring-gray-100">
+                                    <i data-lucide="briefcase" class="w-6 h-6 text-white"></i>
+                                </span>
+                                <h3 class="text-xl font-bold text-gray-900 mb-2">Capacitador</h3>
+                                <time class="block mb-3 text-sm font-normal leading-none text-gray-600">La Veneciana | 03/2015 - 12/2019</time>
+                                <ul class="list-disc list-inside text-gray-700 space-y-1.5">
+                                    <li>Proporcioné atención al cliente, ampliando la satisfacción del mismo.</li>
+                                    <li>Capacitación efectiva de empleados para mejorar el rendimiento del equipo.</li>
+                                    <li>Gestioné reclamos, asegurando la resolución eficiente de problemas.</li>
+                                </ul>
+                            </div>
+                        </div>
+                    </div>
+
+                    <!-- Formación Académica Tab -->
+                    <div id="formacion-tab" class="tab-content" role="tabpanel" aria-labelledby="formacion-tab-button">
+                        <h2 class="section-title text-gray-900">Formación Académica</h2>
+                        <div class="grid md:grid-cols-2 lg:grid-cols-3 gap-8">
+                            <!-- Education Card with hover effect -->
+                            <div class="bg-gray-50 p-7 rounded-xl shadow-lg transition-transform duration-300 hover:-translate-y-2 hover:shadow-xl card-hover-effect">
+                                <div class="flex items-center mb-4">
+                                    <i data-lucide="graduation-cap" class="w-9 h-9 text-teal-600 mr-4 icon-hover-effect"></i>
+                                    <h3 class="text-lg font-semibold text-gray-900">Licenciatura en Relaciones Laborales</h3>
+                                </div>
+                                <p class="text-gray-700">Universidad Nacional de Lomas de Zamora (2014 - 2023)</p>
+                            </div>
+                            <div class="bg-gray-50 p-7 rounded-xl shadow-lg transition-transform duration-300 hover:-translate-y-2 hover:shadow-xl card-hover-effect">
+                                <div class="flex items-center mb-4">
+                                    <i data-lucide="award" class="w-9 h-9 text-teal-600 mr-4 icon-hover-effect"></i>
+                                    <h3 class="text-lg font-semibold text-gray-900">Liquidación de Sueldos y Jornales</h3>
+                                </div>
+                                <p class="text-gray-700">Universidad Nacional de Lanús (2014 - 2015)</p>
+                            </div>
+                            <div class="bg-gray-50 p-7 rounded-xl shadow-lg transition-transform duration-300 hover:-translate-y-2 hover:shadow-xl card-hover-effect">
+                                <div class="flex items-center mb-4">
+                                    <i data-lucide="award" class="w-9 h-9 text-teal-600 mr-4 icon-hover-effect"></i>
+                                    <h3 class="text-lg font-semibold text-gray-900">Manejo del sistema Tango Gestión</h3>
+                                </div>
+                                <p class="text-gray-700">Universidad Nacional de Lanús</p>
+                            </div>
+                            <div class="bg-gray-50 p-7 rounded-xl shadow-lg transition-transform duration-300 hover:-translate-y-2 hover:shadow-xl card-hover-effect">
+                                <div class="flex items-center mb-4">
+                                    <i data-lucide="award" class="w-9 h-9 text-teal-600 mr-4 icon-hover-effect"></i>
+                                    <h3 class="text-lg font-semibold text-gray-900">Manejo Avanzado de Excel</h3>
+                                </div>
+                                <p class="text-gray-700">Instituto Argentino de Computación (2018 - 2019)</p>
+                            </div>
+                            <div class="bg-gray-50 p-7 rounded-xl shadow-lg transition-transform duration-300 hover:-translate-y-2 hover:shadow-xl card-hover-effect">
+                                <div class="flex items-center mb-4">
+                                    <i data-lucide="award" class="w-9 h-9 text-teal-600 mr-4 icon-hover-effect"></i>
+                                    <h3 class="text-lg font-semibold text-gray-900">Marketing Digital</h3>
+                                </div>
+                                <p class="text-gray-700">Academia Numen (2023 - 2024)</p>
+                            </div>
+                        </div>
+                    </div>
+
+                    <!-- Habilidades Clave Tab -->
+                    <div id="habilidades-tab" class="tab-content" role="tabpanel" aria-labelledby="habilidades-tab-button">
+                        <h2 class="section-title text-gray-900">Habilidades Clave</h2>
+                        <div class="grid grid-cols-2 md:grid-cols-3 lg:grid-cols-6 gap-6 text-center">
+                            <!-- Skill Card with hover effect -->
+                            <div class="bg-white p-7 rounded-xl shadow-lg flex flex-col items-center justify-center transition-transform duration-300 hover:-translate-y-2 hover:shadow-xl card-hover-effect">
+                                <i data-lucide="users" class="w-14 h-14 text-teal-600 mb-4 icon-hover-effect"></i>
+                                <span class="font-semibold text-gray-800">Reclutamiento y Selección</span>
+                            </div>
+                            <div class="bg-white p-7 rounded-xl shadow-lg flex flex-col items-center justify-center transition-transform duration-300 hover:-translate-y-2 hover:shadow-xl card-hover-effect">
+                                <i data-lucide="clipboard-list" class="w-14 h-14 text-teal-600 mb-4 icon-hover-effect"></i>
+                                <span class="font-semibold text-gray-800">Gestión de RRHH</span>
+                            </div>
+                            <div class="bg-white p-7 rounded-xl shadow-lg flex flex-col items-center justify-center transition-transform duration-300 hover:-translate-y-2 hover:shadow-xl card-hover-effect">
+                                <i data-lucide="swords" class="w-14 h-14 text-teal-600 mb-4 icon-hover-effect"></i>
+                                <span class="font-semibold text-gray-800">Resolución de Conflictos</span>
+                            </div>
+                            <div class="bg-white p-7 rounded-xl shadow-lg flex flex-col items-center justify-center transition-transform duration-300 hover:-translate-y-2 hover:shadow-xl card-hover-effect">
+                                <i data-lucide="file-spreadsheet" class="w-14 h-14 text-teal-600 mb-4 icon-hover-effect"></i>
+                                <span class="font-semibold text-gray-800">Excel Avanzado</span>
+                            </div>
+                            <div class="bg-white p-7 rounded-xl shadow-lg flex flex-col items-center justify-center transition-transform duration-300 hover:-translate-y-2 hover:shadow-xl card-hover-effect">
+                                <i data-lucide="megaphone" class="w-14 h-14 text-teal-600 mb-4 icon-hover-effect"></i>
+                                <span class="font-semibold text-gray-800">Marketing Digital</span>
+                            </div>
+                            <div class="bg-white p-7 rounded-xl shadow-lg flex flex-col items-center justify-center transition-transform duration-300 hover:-translate-y-2 hover:shadow-xl card-hover-effect">
+                                <i data-lucide="languages" class="w-14 h-14 text-teal-600 mb-4 icon-hover-effect"></i>
+                                <span class="font-semibold text-gray-800">Inglés Fluido</span>
+                            </div>
+                        </div>
+                    </div>
+
+                    <!-- Contacto Tab -->
+                    <div id="contacto-tab" class="tab-content" role="tabpanel" aria-labelledby="contacto-tab-button">
+                        <h2 class="section-title text-gray-900">Contacto</h2>
+                        <div class="max-w-lg mx-auto text-center">
+                            <p class="text-lg text-gray-700 mb-10 leading-relaxed">
+                                Estoy disponible para nuevas oportunidades y colaboraciones. No dudes en contactarme.
+                            </p>
+                            <div class="flex flex-wrap justify-center items-center gap-6">
+                                <a href="mailto:candilmartinalonso@gmail.com" class="flex items-center text-xl text-gray-800 hover:text-teal-600 group transition duration-300 icon-hover-effect">
+                                    <i data-lucide="mail" class="w-7 h-7 mr-3 text-teal-600 group-hover:text-teal-700 transition duration-300"></i>
+                                    <span class="group-hover:underline font-medium">candilmartinalonso@gmail.com</span>
+                                </a>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </section>
+    </main>
+
+    <!-- Footer -->
+    <footer class="bg-gray-900 text-white">
+        <div class="container mx-auto px-6 py-10 text-center">
+            <p class="text-lg">&copy; 2024 Martín Alonso Candil. Todos los derechos reservados.</p>
+            <p class="text-sm text-gray-400 mt-3">Diseñado con Tailwind CSS y Lucide Icons</p>
+        </div>
+    </footer>
+
+    <!-- Botón de Volver Arriba -->
+    <button id="scrollTopButton" aria-label="Volver arriba">
+        <i data-lucide="arrow-up" class="w-6 h-6"></i>
+    </button>
+
+    <script>
+        document.addEventListener('DOMContentLoaded', () => {
+            // Inicializar iconos de Lucide
+            lucide.createIcons();
+
+            // Lógica del menú móvil
+            const mobileMenuButton = document.getElementById('mobile-menu-button');
+            const mobileMenu = document.getElementById('mobile-menu');
+            
+            if (mobileMenuButton && mobileMenu) {
+                mobileMenuButton.addEventListener('click', () => {
+                    const isExpanded = mobileMenuButton.getAttribute('aria-expanded') === 'true';
+                    mobileMenu.classList.toggle('hidden');
+                    mobileMenuButton.setAttribute('aria-expanded', !isExpanded);
+                });
+            }
+
+            // Lógica para el botón de "Volver Arriba"
+            const scrollTopButton = document.getElementById('scrollTopButton');
+
+            window.addEventListener('scroll', () => {
+                if (window.scrollY > 300) { // Muestra el botón después de 300px de scroll
+                    scrollTopButton.style.display = 'flex';
+                } else {
+                    scrollTopButton.style.display = 'none';
+                }
+            });
+
+            scrollTopButton.addEventListener('click', () => {
+                window.scrollTo({
+                    top: 0,
+                    behavior: 'smooth' // Desplazamiento suave
+                });
+            });
+
+            // Lógica de las Pestañas
+            const tabButtons = document.querySelectorAll('.tab-button');
+            const tabContents = document.querySelectorAll('.tab-content');
+
+            // Función para mostrar la pestaña activa
+            const showTab = (tabId) => {
+                tabContents.forEach(content => {
+                    content.classList.remove('active');
+                });
+                tabButtons.forEach(button => {
+                    button.classList.remove('active');
+                    button.setAttribute('aria-selected', 'false');
+                });
+
+                const activeTabContent = document.getElementById(tabId);
+                const activeTabButton = document.querySelector(`.tab-button[data-tab="${tabId}"]`);
+
+                if (activeTabContent) {
+                    activeTabContent.classList.add('active');
+                    // Solo desplázate si es la pestaña de contacto y si no estamos ya en ella
+                    if (tabId === 'contacto-tab') {
+                        activeTabContent.scrollIntoView({ behavior: 'smooth', block: 'start' });
+                    }
+                }
+                if (activeTabButton) {
+                    activeTabButton.classList.add('active');
+                    activeTabButton.setAttribute('aria-selected', 'true');
+                }
+            };
+
+            // Manejar clics en los botones de las pestañas
+            tabButtons.forEach(button => {
+                button.addEventListener('click', () => {
+                    const tabId = button.dataset.tab;
+                    showTab(tabId);
+                });
+            });
+
+            // Manejar clics en los enlaces del menú móvil para las pestañas
+            const mobileMenuLinks = mobileMenu.querySelectorAll('a[href^="#"]');
+            mobileMenuLinks.forEach(link => {
+                link.addEventListener('click', (event) => {
+                    event.preventDefault(); // Evitar el salto de ancla por defecto
+                    const targetId = link.getAttribute('href').substring(1); // Obtener el ID de la pestaña
+                    showTab(targetId);
+                    mobileMenu.classList.add('hidden'); // Ocultar el menú móvil después de la selección
+                    mobileMenuButton.setAttribute('aria-expanded', 'false');
+                });
+            });
+
+            // Lógica para el botón "Contáctame" de la sección Hero
+            const contactMeButton = document.getElementById('contact-me-button');
+            if (contactMeButton) {
+                contactMeButton.addEventListener('click', (event) => {
+                    event.preventDefault(); // Evitar el salto de ancla por defecto
+                    showTab('contacto-tab'); // Activar la pestaña de Contacto y desplazar a ella
+                });
+            }
+
+            // Mostrar la pestaña inicial al cargar la página (Presentación)
+            showTab('presentacion-tab');
+        });
+    </script>
 </body>
 </html>
