@@ -15,70 +15,72 @@
     <script src="https://unpkg.com/lucide@latest" defer></script>
 
     <style>
-        /* Fade-in en toda la página */
+        /* Estilos base y de fondo */
         body {
             font-family: 'Inter', sans-serif;
             background: linear-gradient(120deg, #f0fdfa 0%, #ccfbf1 100%);
             background-attachment: fixed;
             color: #334155;
             opacity: 0;
-            animation: fadeInBody 1.5s ease forwards;
+            animation: fadeInBody 1s ease-out forwards;
         }
+
         @keyframes fadeInBody {
-            from { opacity: 0; }
             to { opacity: 1; }
         }
-        html {}
 
-        /* Fondo partículas flotantes */
         #particles-bg {
             position: fixed;
             inset: 0;
             pointer-events: none;
-            z-index: 0;
+            z-index: -1;
         }
+
         .particle {
             position: absolute;
             border-radius: 50%;
-            opacity: 0.12;
-            animation: particle-float 20s infinite linear;
+            opacity: 0; /* Inicia invisible */
+            animation: particle-float 20s infinite linear, fadeInParticle 3s ease-out forwards;
         }
-        .particle-1 { width: 60px; height: 60px; left: 10vw; top: 20vh; background: #14b8a6; animation-delay: 0s; }
-        .particle-2 { width: 40px; height: 40px; left: 50vw; top: 70vh; background: #0d9488; animation-delay: 8s; }
-        .particle-3 { width: 80px; height: 80px; left: 80vw; top: 10vh; background: #99f6e4; animation-delay: 4s; }
-        @keyframes particle-float {
-            0% { transform: translateY(0) scale(1); }
-            50% { transform: translateY(-35px) scale(1.07); }
-            100% { transform: translateY(0) scale(1); }
+        
+        @keyframes fadeInParticle {
+            to { opacity: 0.12; }
         }
 
-        /* --- ANIMACIONES Y EFECTOS VISUALES --- */
+        .particle-1 { width: 60px; height: 60px; left: 10vw; top: 20vh; background: #14b8a6; animation-delay: 0s, 0.5s; }
+        .particle-2 { width: 40px; height: 40px; left: 50vw; top: 70vh; background: #0d9488; animation-delay: 8s, 1s; }
+        .particle-3 { width: 80px; height: 80px; left: 80vw; top: 10vh; background: #99f6e4; animation-delay: 4s, 1.5s; }
+
+        @keyframes particle-float {
+            0%, 100% { transform: translateY(0) scale(1); }
+            50% { transform: translateY(-35px) scale(1.07); }
+        }
+
+        /* --- ANIMACIONES DE ENTRADA --- */
         .animate-on-scroll {
             opacity: 0;
             transform: translateY(30px);
             transition: opacity 0.6s cubic-bezier(0.645, 0.045, 0.355, 1), transform 0.8s cubic-bezier(0.23, 1, 0.32, 1);
         }
+
         .animate-on-scroll.is-visible {
             opacity: 1;
             transform: translateY(0);
         }
-        /* Animación extra para todas las secciones */
+        
+        /* Animación de entrada para las secciones principales */
         .main-section {
             opacity: 0;
-            transform: translateY(40px) scale(0.97);
+            transform: translateY(40px) scale(0.98);
             transition: opacity 0.8s cubic-bezier(0.23, 1, 0.32, 1), transform 0.8s cubic-bezier(0.23, 1, 0.32, 1);
         }
+        
         .main-section.is-visible {
             opacity: 1;
             transform: translateY(0) scale(1);
         }
 
-        /* Hero con gradiente y formas animadas */
-        @keyframes hero-gradient {
-            0% { background-position: 0% 50%; }
-            50% { background-position: 100% 50%; }
-            100% { background-position: 0% 50%; }
-        }
+        /* --- SECCIÓN HERO --- */
         #hero {
             background: linear-gradient(-45deg, #f0fdfa, #ccfbf1, #a7f3d0, #6ee7b7);
             background-size: 400% 400%;
@@ -86,125 +88,163 @@
             position: relative;
             overflow: hidden;
         }
+
+        @keyframes hero-gradient {
+            0%, 100% { background-position: 0% 50%; }
+            50% { background-position: 100% 50%; }
+        }
+
         .shape {
             position: absolute;
             border-radius: 50%;
             background: linear-gradient(45deg, rgba(20, 184, 166, 0.1), rgba(13, 148, 136, 0.1));
             animation: float 20s infinite ease-in-out;
         }
+
         .shape-1 { width: 400px; height: 400px; top: -150px; left: -100px; animation-duration: 25s; }
         .shape-2 { width: 300px; height: 300px; bottom: -100px; right: -100px; animation-duration: 20s; animation-delay: 5s; }
+
         @keyframes float {
-            0% { transform: translateY(0px) translateX(0px) rotate(0deg); }
+            0%, 100% { transform: translateY(0px) translateX(0px) rotate(0deg); }
             50% { transform: translateY(-20px) translateX(20px) rotate(180deg); }
-            100% { transform: translateY(0px) translateX(0px) rotate(360deg); }
         }
 
-        /* Animación para el botón principal (CTA) con destello */
+        /* --- BOTONES Y ENLACES INTERACTIVOS --- */
         .cta-button {
             position: relative;
-            transition: transform 0.3s ease;
+            transition: transform 0.3s ease, box-shadow 0.3s ease;
         }
+
         .cta-button:hover {
-            transform: translateY(-4px) scale(1.05);
+            transform: translateY(-5px) scale(1.05);
+            box-shadow: 0 10px 20px rgba(20, 184, 166, 0.2);
         }
+
         .cta-button.is-visible {
-            animation: pulse-cta 2.5s infinite 1s;
+            animation: pulse-cta 2.5s infinite 1.5s;
         }
-        .cta-button::after {
-            content: '';
-            position: absolute;
-            left: 0; top: 0;
-            width: 100%; height: 100%;
-            border-radius: inherit;
-            background: linear-gradient(135deg, rgba(255,255,255,0.23), transparent 70%);
-            opacity: 0;
-            pointer-events: none;
-            animation: cta-flash 2.3s infinite;
-        }
+
         @keyframes pulse-cta {
             0% { transform: scale(1); box-shadow: 0 0 0 0 rgba(20, 184, 166, 0.7); }
             70% { transform: scale(1.02); box-shadow: 0 0 0 12px rgba(20, 184, 166, 0); }
             100% { transform: scale(1); box-shadow: 0 0 0 0 rgba(20, 184, 166, 0); }
         }
-        @keyframes cta-flash {
-            0%,100% { opacity: 0; }
-            60% { opacity: 0.4; }
-        }
 
-        /* Títulos con efecto de zoom al pasar el mouse */
-        h2, h3 {
+        /* --- TÍTULOS --- */
+        h2.animate-on-scroll, h3.animate-on-scroll {
             transition: transform 0.3s, color 0.3s;
         }
-        h2:hover, h3:hover {
-            transform: scale(1.07);
+        h2.animate-on-scroll:hover, h3.animate-on-scroll:hover {
+            transform: scale(1.05) translateY(0) !important; /* Asegura que el hover funcione bien */
             color: #14b8a6;
         }
 
-        /* Línea de tiempo animada */
+        /* --- LÍNEA DE TIEMPO --- */
         .timeline-line {
             background: linear-gradient(to bottom, #99f6e4, #2dd4bf);
             transform: scaleY(0);
             transform-origin: top;
-            transition: transform 1s cubic-bezier(0.645, 0.045, 0.355, 1);
+            transition: transform 1s cubic-bezier(0.645, 0.045, 0.355, 1) 0.2s; /* Añadido delay */
         }
+
         .timeline-line.is-visible { transform: scaleY(1); }
+
         .timeline-point {
             transform: scale(0);
-            transition: transform 0.5s cubic-bezier(0.175, 0.885, 0.32, 1.275) 0.5s;
+            transition: transform 0.5s cubic-bezier(0.175, 0.885, 0.32, 1.275) 0.8s; /* Sincronizado con la línea */
         }
+
         .timeline-point.is-visible { transform: scale(1); }
 
-        /* Animación para los íconos de habilidades */
+        /* --- HABILIDADES --- */
         .skill-icon-wrapper {
             transition: transform 0.3s ease, color 0.3s ease;
         }
+
         .skill-icon-wrapper:hover {
-            transform: scale(1.15) rotate(-10deg);
+            transform: scale(1.15) rotate(-8deg) translateY(0) !important; /* Asegura que el hover funcione bien */
         }
+
         .skill-icon-wrapper:hover .skill-icon {
             background-color: #ccfbf1;
             color: #0d9488;
+            box-shadow: 0 4px 15px rgba(13, 148, 136, 0.2);
+        }
+        
+        .skill-icon {
+             transition: background-color 0.3s, color 0.3s, box-shadow 0.3s;
         }
 
-        /* Tarjetas con efecto de brillo y entrada animada */
+        /* --- TARJETAS INTERACTIVAS --- */
         .interactive-card {
             position: relative;
             overflow: hidden;
             transition: transform 0.4s cubic-bezier(0.23, 1, 0.32, 1), box-shadow 0.4s cubic-bezier(0.23, 1, 0.32, 1);
         }
+
         .interactive-card:hover {
-            transform: translateY(-10px);
-            box-shadow: 0 25px 50px -12px rgba(0, 0, 0, 0.25);
+            transform: translateY(-10px) !important; /* Asegura que el hover funcione bien */
+            box-shadow: 0 25px 50px -12px rgba(0, 0, 0, 0.15);
         }
+
         .interactive-card::before {
             content: "";
             position: absolute;
-            left: 0;
-            top: 0;
-            width: 100%;
-            height: 100%;
+            left: 0; top: 0;
+            width: 100%; height: 100%;
             background: radial-gradient(800px circle at var(--mouse-x) var(--mouse-y), rgba(13, 148, 136, 0.15), transparent 40%);
             opacity: 0;
             transition: opacity 0.5s;
         }
+
         .interactive-card:hover::before { opacity: 1; }
 
-        /* Botón de "Volver Arriba" */
+        /* --- BOTÓN VOLVER ARRIBA --- */
         #scrollTopButton {
-            display: none; position: fixed; bottom: 25px; right: 25px; z-index: 1000;
+            position: fixed; bottom: 25px; right: 25px; z-index: 1000;
             background-color: #ffffff; color: #0d9488; width: 44px; height: 44px;
-            border-radius: 9999px; transition: all 0.3s ease; cursor: pointer;
+            border-radius: 9999px;
             border: 1px solid #e5e7eb; display: flex; align-items: center; justify-content: center;
             box-shadow: 0 4px 6px -1px rgba(0, 0, 0, 0.1), 0 2px 4px -1px rgba(0, 0, 0, 0.06);
+            opacity: 0;
+            transform: translateY(20px);
+            transition: opacity 0.4s ease, transform 0.4s ease, background-color 0.3s;
+            cursor: pointer;
+            visibility: hidden;
         }
+        
+        #scrollTopButton.visible {
+            opacity: 1;
+            transform: translateY(0);
+            visibility: visible;
+        }
+
         #scrollTopButton:hover { background-color: #f0fdfa; transform: translateY(-3px) scale(1.1); }
 
-        /* Navegación activa */
+        /* --- NAVEGACIÓN --- */
+        .nav-link {
+            position: relative;
+        }
+        .nav-link::after {
+            content: '';
+            position: absolute;
+            width: 100%;
+            height: 2px;
+            bottom: -6px;
+            left: 0;
+            background-color: #14b8a6;
+            transform: scaleX(0);
+            transform-origin: bottom right;
+            transition: transform 0.3s cubic-bezier(0.23, 1, 0.32, 1);
+        }
+        .nav-link:hover::after, .nav-link-active::after {
+            transform: scaleX(1);
+            transform-origin: bottom left;
+        }
         .nav-link-active { color: #0d9488 !important; font-weight: 600; }
 
-        /* Subrayado animado para email */
-        .animated-underline { position: relative; text-decoration: none; }
+        /* --- CONTACTO --- */
+        .animated-underline { position: relative; text-decoration: none; display: inline-block; }
         .animated-underline::after {
             content: ''; position: absolute; width: 100%; height: 2px; bottom: -4px; left: 0;
             background-color: #14b8a6; transform: scaleX(0); transform-origin: bottom right;
@@ -212,12 +252,12 @@
         }
         .animated-underline:hover::after { transform: scaleX(1); transform-origin: bottom left; }
 
-        /* Iconos sociales con animación */
-        [data-lucide] {
+        /* --- ICONOS SOCIALES --- */
+        .social-icon {
             transition: transform 0.4s cubic-bezier(0.23,1,0.32,1), color 0.3s;
         }
-        [data-lucide]:hover {
-            transform: rotate(-15deg) scale(1.18);
+        .social-icon:hover {
+            transform: rotate(-15deg) scale(1.2);
             color: #14b8a6 !important;
         }
     </style>
@@ -225,30 +265,30 @@
 <body class="text-slate-700 antialiased">
     <div id="particles-bg"></div>
     <!-- Header -->
-    <header class="bg-white/80 backdrop-blur-sm sticky top-0 z-40 border-b border-gray-100">
+    <header class="bg-white/80 backdrop-blur-sm sticky top-0 z-40 border-b border-gray-100/80">
         <nav role="navigation" class="container mx-auto px-6 py-5 flex justify-between items-center">
-            <a href="#" class="text-xl font-bold text-gray-900 tracking-tight">Martín Alonso Candil</a>
+            <a href="#" class="text-xl font-bold text-gray-900 tracking-tight transition-transform duration-300 hover:scale-105">Martín Alonso Candil</a>
             <div class="hidden md:flex items-center">
                 <div class="flex items-center space-x-8">
-                    <a href="#about" class="nav-link text-gray-500 hover:text-teal-600 transition duration-300">Sobre Mí</a>
-                    <a href="#experiencia" class="nav-link text-gray-500 hover:text-teal-600 transition duration-300">Experiencia</a>
-                    <a href="#habilidades" class="nav-link text-gray-500 hover:text-teal-600 transition duration-300">Habilidades</a>
-                    <a href="#formacion" class="nav-link text-gray-500 hover:text-teal-600 transition duration-300">Formación</a>
-                    <a href="#contacto" class="nav-link text-gray-500 hover:text-teal-600 transition duration-300">Contacto</a>
+                    <a href="#about" class="nav-link text-gray-500 hover:text-teal-600">Sobre Mí</a>
+                    <a href="#experiencia" class="nav-link text-gray-500 hover:text-teal-600">Experiencia</a>
+                    <a href="#habilidades" class="nav-link text-gray-500 hover:text-teal-600">Habilidades</a>
+                    <a href="#formacion" class="nav-link text-gray-500 hover:text-teal-600">Formación</a>
+                    <a href="#contacto" class="nav-link text-gray-500 hover:text-teal-600">Contacto</a>
                 </div>
                 <div class="h-6 w-px bg-gray-200 mx-6"></div>
                 <div class="flex items-center space-x-4">
-                    <a href="https://www.linkedin.com/in/martinalonsocandil/" target="_blank" rel="noopener noreferrer" class="text-gray-400 hover:text-teal-600 transition duration-300" aria-label="LinkedIn">
-                        <i data-lucide="linkedin" class="w-5 h-5"></i>
+                    <a href="https://www.linkedin.com/in/martinalonsocandil/" target="_blank" rel="noopener noreferrer" class="text-gray-400 hover:text-teal-600" aria-label="LinkedIn">
+                        <i data-lucide="linkedin" class="w-5 h-5 social-icon"></i>
                     </a>
-                    <a href="https://www.facebook.com/martinalonsocandil" target="_blank" rel="noopener noreferrer" class="text-gray-400 hover:text-teal-600 transition duration-300" aria-label="Facebook">
-                        <i data-lucide="facebook" class="w-5 h-5"></i>
+                    <a href="https://www.facebook.com/martinalonsocandil" target="_blank" rel="noopener noreferrer" class="text-gray-400 hover:text-teal-600" aria-label="Facebook">
+                        <i data-lucide="facebook" class="w-5 h-5 social-icon"></i>
                     </a>
-                    <a href="https://www.instagram.com/candilmartinalonso" target="_blank" rel="noopener noreferrer" class="text-gray-400 hover:text-teal-600 transition duration-300" aria-label="Instagram">
-                        <i data-lucide="instagram" class="w-5 h-5"></i>
+                    <a href="https://www.instagram.com/candilmartinalonso" target="_blank" rel="noopener noreferrer" class="text-gray-400 hover:text-teal-600" aria-label="Instagram">
+                        <i data-lucide="instagram" class="w-5 h-5 social-icon"></i>
                     </a>
-                    <a href="https://listado.mercadolibre.com.ar/_CustId_514808517" target="_blank" rel="noopener noreferrer" class="text-gray-400 hover:text-teal-600 transition duration-300" aria-label="MercadoLibre">
-                        <i data-lucide="shopping-cart" class="w-5 h-5"></i>
+                    <a href="https://listado.mercadolibre.com.ar/_CustId_514808517" target="_blank" rel="noopener noreferrer" class="text-gray-400 hover:text-teal-600" aria-label="MercadoLibre">
+                        <i data-lucide="shopping-cart" class="w-5 h-5 social-icon"></i>
                     </a>
                 </div>
             </div>
@@ -265,18 +305,10 @@
             <a href="#contacto" class="mobile-link nav-link block py-2 text-gray-700">Contacto</a>
             <div class="border-t border-gray-100 my-4"></div>
             <div class="flex justify-center space-x-6">
-                <a href="https://www.linkedin.com/in/martinalonsocandil/" target="_blank" rel="noopener noreferrer" class="text-gray-500 hover:text-teal-600 transition duration-300" aria-label="LinkedIn">
-                    <i data-lucide="linkedin" class="w-6 h-6"></i>
-                </a>
-                <a href="https://www.facebook.com/martinalonsocandil" target="_blank" rel="noopener noreferrer" class="text-gray-500 hover:text-teal-600 transition duration-300" aria-label="Facebook">
-                    <i data-lucide="facebook" class="w-6 h-6"></i>
-                </a>
-                <a href="https://www.instagram.com/candilmartinalonso" target="_blank" rel="noopener noreferrer" class="text-gray-500 hover:text-teal-600 transition duration-300" aria-label="Instagram">
-                    <i data-lucide="instagram" class="w-6 h-6"></i>
-                </a>
-                <a href="https://listado.mercadolibre.com.ar/_CustId_514808517" target="_blank" rel="noopener noreferrer" class="text-gray-500 hover:text-teal-600 transition duration-300" aria-label="MercadoLibre">
-                    <i data-lucide="shopping-cart" class="w-6 h-6"></i>
-                </a>
+                 <a href="https://www.linkedin.com/in/martinalonsocandil/" target="_blank" rel="noopener noreferrer" class="text-gray-500 hover:text-teal-600" aria-label="LinkedIn"><i data-lucide="linkedin" class="w-6 h-6 social-icon"></i></a>
+                 <a href="https://www.facebook.com/martinalonsocandil" target="_blank" rel="noopener noreferrer" class="text-gray-500 hover:text-teal-600" aria-label="Facebook"><i data-lucide="facebook" class="w-6 h-6 social-icon"></i></a>
+                 <a href="https://www.instagram.com/candilmartinalonso" target="_blank" rel="noopener noreferrer" class="text-gray-500 hover:text-teal-600" aria-label="Instagram"><i data-lucide="instagram" class="w-6 h-6 social-icon"></i></a>
+                 <a href="https://listado.mercadolibre.com.ar/_CustId_514808517" target="_blank" rel="noopener noreferrer" class="text-gray-500 hover:text-teal-600" aria-label="MercadoLibre"><i data-lucide="shopping-cart" class="w-6 h-6 social-icon"></i></a>
             </div>
         </div>
     </header>
@@ -296,19 +328,19 @@
         <!-- Sección Sobre Mí -->
         <section id="about" class="main-section py-20 md:py-32 bg-white">
             <div class="container mx-auto px-6">
-                <div class="max-w-3xl mx-auto text-center animate-on-scroll">
-                    <h2 class="text-3xl md:text-4xl font-bold text-gray-900 mb-6">Sobre Mí</h2>
+                <div class="max-w-3xl mx-auto text-center">
+                    <h2 class="text-3xl md:text-4xl font-bold text-gray-900 mb-6 animate-on-scroll">Sobre Mí</h2>
                     <div class="text-base md:text-lg text-gray-700 leading-relaxed space-y-5">
-                        <p>¡Hola! Soy Martín, Licenciado en Relaciones Laborales apasionado por la intersección entre el talento humano y los objetivos de negocio. Mi carrera se ha enfocado en diseñar procesos eficientes y humanos.</p>
-                        <p>Me especializo en el ciclo completo de vida del empleado, desde la atracción y selección de talento hasta la gestión de su desarrollo y la administración de las relaciones laborales.</p>
-                        <p>Con una sólida experiencia en diversos sectores, mi objetivo es crear soluciones que aporten valor tangible, mejoren la experiencia del empleado y potencien el crecimiento organizacional.</p>
+                        <p class="animate-on-scroll" style="transition-delay: 150ms;">¡Hola! Soy Martín, Licenciado en Relaciones Laborales apasionado por la intersección entre el talento humano y los objetivos de negocio. Mi carrera se ha enfocado en diseñar procesos eficientes y humanos.</p>
+                        <p class="animate-on-scroll" style="transition-delay: 300ms;">Me especializo en el ciclo completo de vida del empleado, desde la atracción y selección de talento hasta la gestión de su desarrollo y la administración de las relaciones laborales.</p>
+                        <p class="animate-on-scroll" style="transition-delay: 450ms;">Con una sólida experiencia en diversos sectores, mi objetivo es crear soluciones que aporten valor tangible, mejoren la experiencia del empleado y potencien el crecimiento organizacional.</p>
                     </div>
                 </div>
             </div>
         </section>
 
         <!-- Sección Experiencia -->
-        <section id="experiencia" class="main-section py-20 md:py-32 bg-gray-50 border-y border-gray-100">
+        <section id="experiencia" class="main-section py-20 md:py-32 bg-gray-50/70 border-y border-gray-100/80">
             <div class="container mx-auto px-6">
                 <h2 class="text-3xl md:text-4xl font-bold text-gray-900 mb-16 text-center animate-on-scroll">Experiencia Profesional</h2>
                 <div class="relative max-w-3xl mx-auto">
@@ -328,7 +360,7 @@
                     </div>
                     <!-- Job 2 -->
                     <div class="relative pl-10 pb-16 animate-on-scroll" style="transition-delay: 150ms;">
-                         <div class="absolute -left-1.5 top-1 w-4 h-4 bg-white border-2 border-teal-500 rounded-full timeline-point" style="transition-delay: 150ms;"></div>
+                         <div class="absolute -left-1.5 top-1 w-4 h-4 bg-white border-2 border-teal-500 rounded-full timeline-point" style="transition-delay: 1.15s;"></div>
                         <p class="text-sm text-teal-600 font-semibold mb-1">Sep 2022 - Jul 2023</p>
                         <h3 class="text-xl font-semibold text-gray-900">Analista de Recursos Humanos</h3>
                         <p class="text-gray-600 mb-3">Priority Home Care</p>
@@ -341,7 +373,7 @@
                     </div>
                     <!-- Job 3 -->
                     <div class="relative pl-10 pb-16 animate-on-scroll" style="transition-delay: 300ms;">
-                        <div class="absolute -left-1.5 top-1 w-4 h-4 bg-white border-2 border-teal-500 rounded-full timeline-point" style="transition-delay: 300ms;"></div>
+                        <div class="absolute -left-1.5 top-1 w-4 h-4 bg-white border-2 border-teal-500 rounded-full timeline-point" style="transition-delay: 1.3s;"></div>
                         <p class="text-sm text-teal-600 font-semibold mb-1">Ene 2022 - Abr 2022</p>
                         <h3 class="text-xl font-semibold text-gray-900">Analista de Recursos Humanos</h3>
                         <p class="text-gray-600 mb-3">South America Implants</p>
@@ -353,7 +385,7 @@
                     </div>
                     <!-- Job 4 -->
                     <div class="relative pl-10 pb-16 animate-on-scroll" style="transition-delay: 450ms;">
-                        <div class="absolute -left-1.5 top-1 w-4 h-4 bg-white border-2 border-teal-500 rounded-full timeline-point" style="transition-delay: 450ms;"></div>
+                        <div class="absolute -left-1.5 top-1 w-4 h-4 bg-white border-2 border-teal-500 rounded-full timeline-point" style="transition-delay: 1.45s;"></div>
                         <p class="text-sm text-teal-600 font-semibold mb-1">Dic 2020 - May 2021</p>
                         <h3 class="text-xl font-semibold text-gray-900">Analista de Recursos Humanos</h3>
                         <p class="text-gray-600 mb-3">Country Golf El Sosiego</p>
@@ -365,7 +397,7 @@
                     </div>
                     <!-- Job 5 -->
                     <div class="relative pl-10 animate-on-scroll" style="transition-delay: 600ms;">
-                        <div class="absolute -left-1.5 top-1 w-4 h-4 bg-white border-2 border-teal-500 rounded-full timeline-point" style="transition-delay: 600ms;"></div>
+                        <div class="absolute -left-1.5 top-1 w-4 h-4 bg-white border-2 border-teal-500 rounded-full timeline-point" style="transition-delay: 1.6s;"></div>
                         <p class="text-sm text-teal-600 font-semibold mb-1">Mar 2015 - Dic 2019</p>
                         <h3 class="text-xl font-semibold text-gray-900">Capacitador</h3>
                         <p class="text-gray-600 mb-3">La Veneciana</p>
@@ -385,31 +417,31 @@
                 <h2 class="text-3xl md:text-4xl font-bold text-gray-900 mb-16 text-center animate-on-scroll">Habilidades Clave</h2>
                 <div class="grid grid-cols-2 sm:grid-cols-4 lg:grid-cols-7 gap-8 text-center justify-center">
                     <div class="animate-on-scroll skill-icon-wrapper">
-                        <div class="skill-icon bg-teal-50 text-teal-700 w-20 h-20 rounded-full flex items-center justify-center mx-auto mb-4 transition-colors duration-300"><i data-lucide="users" class="w-10 h-10"></i></div>
+                        <div class="skill-icon bg-teal-50 text-teal-700 w-20 h-20 rounded-full flex items-center justify-center mx-auto mb-4"><i data-lucide="users" class="w-10 h-10"></i></div>
                         <h3 class="font-semibold">Reclutamiento</h3>
                     </div>
                     <div class="animate-on-scroll skill-icon-wrapper" style="transition-delay: 100ms;">
-                        <div class="skill-icon bg-teal-50 text-teal-700 w-20 h-20 rounded-full flex items-center justify-center mx-auto mb-4 transition-colors duration-300"><i data-lucide="scale" class="w-10 h-10"></i></div>
+                        <div class="skill-icon bg-teal-50 text-teal-700 w-20 h-20 rounded-full flex items-center justify-center mx-auto mb-4"><i data-lucide="scale" class="w-10 h-10"></i></div>
                         <h3 class="font-semibold">Legislación</h3>
                     </div>
                     <div class="animate-on-scroll skill-icon-wrapper" style="transition-delay: 200ms;">
-                        <div class="skill-icon bg-teal-50 text-teal-700 w-20 h-20 rounded-full flex items-center justify-center mx-auto mb-4 transition-colors duration-300"><i data-lucide="handshake" class="w-10 h-10"></i></div>
+                        <div class="skill-icon bg-teal-50 text-teal-700 w-20 h-20 rounded-full flex items-center justify-center mx-auto mb-4"><i data-lucide="handshake" class="w-10 h-10"></i></div>
                         <h3 class="font-semibold">Negociación</h3>
                     </div>
                     <div class="animate-on-scroll skill-icon-wrapper" style="transition-delay: 300ms;">
-                        <div class="skill-icon bg-teal-50 text-teal-700 w-20 h-20 rounded-full flex items-center justify-center mx-auto mb-4 transition-colors duration-300"><i data-lucide="file-spreadsheet" class="w-10 h-10"></i></div>
+                        <div class="skill-icon bg-teal-50 text-teal-700 w-20 h-20 rounded-full flex items-center justify-center mx-auto mb-4"><i data-lucide="file-spreadsheet" class="w-10 h-10"></i></div>
                         <h3 class="font-semibold">Excel</h3>
                     </div>
                     <div class="animate-on-scroll skill-icon-wrapper" style="transition-delay: 400ms;">
-                        <div class="skill-icon bg-teal-50 text-teal-700 w-20 h-20 rounded-full flex items-center justify-center mx-auto mb-4 transition-colors duration-300"><i data-lucide="megaphone" class="w-10 h-10"></i></div>
+                        <div class="skill-icon bg-teal-50 text-teal-700 w-20 h-20 rounded-full flex items-center justify-center mx-auto mb-4"><i data-lucide="megaphone" class="w-10 h-10"></i></div>
                         <h3 class="font-semibold">Marketing Digital</h3>
                     </div>
                     <div class="animate-on-scroll skill-icon-wrapper" style="transition-delay: 500ms;">
-                        <div class="skill-icon bg-teal-50 text-teal-700 w-20 h-20 rounded-full flex items-center justify-center mx-auto mb-4 transition-colors duration-300"><i data-lucide="languages" class="w-10 h-10"></i></div>
+                        <div class="skill-icon bg-teal-50 text-teal-700 w-20 h-20 rounded-full flex items-center justify-center mx-auto mb-4"><i data-lucide="languages" class="w-10 h-10"></i></div>
                         <h3 class="font-semibold">Inglés</h3>
                     </div>
                     <div class="animate-on-scroll skill-icon-wrapper" style="transition-delay: 600ms;">
-                        <div class="skill-icon bg-teal-50 text-teal-700 w-20 h-20 rounded-full flex items-center justify-center mx-auto mb-4 transition-colors duration-300"><i data-lucide="swords" class="w-10 h-10"></i></div>
+                        <div class="skill-icon bg-teal-50 text-teal-700 w-20 h-20 rounded-full flex items-center justify-center mx-auto mb-4"><i data-lucide="swords" class="w-10 h-10"></i></div>
                         <h3 class="font-semibold">Resolución de Conflictos</h3>
                     </div>
                 </div>
@@ -417,7 +449,7 @@
         </section>
 
         <!-- Sección Formación -->
-        <section id="formacion" class="main-section py-20 md:py-32 bg-gray-50 border-y border-gray-100">
+        <section id="formacion" class="main-section py-20 md:py-32 bg-gray-50/70 border-y border-gray-100/80">
             <div class="container mx-auto px-6">
                 <h2 class="text-3xl md:text-4xl font-bold text-gray-900 mb-16 text-center animate-on-scroll">Formación Académica</h2>
                 <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-8">
@@ -441,7 +473,7 @@
             </div>
         </section>
 
-        <!-- Sección CTA -->
+        <!-- Sección Contacto -->
         <section id="contacto" class="main-section bg-white">
              <div class="container mx-auto px-6 py-28 text-center">
                 <h2 class="text-3xl font-bold text-gray-900 mb-4 animate-on-scroll">Contacto</h2>
@@ -458,11 +490,13 @@
     </main>
 
     <!-- Footer -->
-    <footer class="bg-gray-50 border-t border-gray-100">
+    <footer class="bg-gray-50/70 border-t border-gray-100/80">
         <div class="container mx-auto px-6 py-8 flex flex-col sm:flex-row justify-between items-center">
             <p class="text-gray-500 text-sm">&copy; 2024 Martín Alonso Candil</p>
             <div class="flex space-x-5 mt-4 sm:mt-0">
-                <!-- Footer icons removed as they are in el header -->
+                 <a href="https://www.linkedin.com/in/martinalonsocandil/" target="_blank" rel="noopener noreferrer" class="text-gray-400 hover:text-teal-600" aria-label="LinkedIn"><i data-lucide="linkedin" class="w-5 h-5 social-icon"></i></a>
+                 <a href="https://www.facebook.com/martinalonsocandil" target="_blank" rel="noopener noreferrer" class="text-gray-400 hover:text-teal-600" aria-label="Facebook"><i data-lucide="facebook" class="w-5 h-5 social-icon"></i></a>
+                 <a href="https://www.instagram.com/candilmartinalonso" target="_blank" rel="noopener noreferrer" class="text-gray-400 hover:text-teal-600" aria-label="Instagram"><i data-lucide="instagram" class="w-5 h-5 social-icon"></i></a>
             </div>
         </div>
     </footer>
@@ -476,7 +510,7 @@
         document.addEventListener('DOMContentLoaded', () => {
             lucide.createIcons();
 
-            // Partículas fondo animadas
+            // --- INICIALIZACIÓN DE PARTÍCULAS ---
             const bg = document.getElementById('particles-bg');
             if(bg) {
                 for(let i=1; i<=3; i++) {
@@ -486,7 +520,7 @@
                 }
             }
 
-            // Menú móvil
+            // --- MENÚ MÓVIL ---
             const mobileMenuButton = document.getElementById('mobile-menu-button');
             const mobileMenu = document.getElementById('mobile-menu');
             if (mobileMenuButton && mobileMenu) {
@@ -497,14 +531,14 @@
                 });
             }
 
-            // Botón de scroll hacia arriba
+            // --- BOTÓN SCROLL TOP ---
             const scrollTopButton = document.getElementById('scrollTopButton');
             if(scrollTopButton) {
                 window.addEventListener('scroll', () => {
                     if (window.scrollY > 400) {
-                        if (scrollTopButton.style.display === 'none') scrollTopButton.style.display = 'flex';
+                        scrollTopButton.classList.add('visible');
                     } else {
-                        if (scrollTopButton.style.display !== 'none') scrollTopButton.style.display = 'none';
+                        scrollTopButton.classList.remove('visible');
                     }
                 });
                 scrollTopButton.addEventListener('click', () => {
@@ -512,73 +546,63 @@
                 });
             }
 
-            // Fondo degradado animado según scroll
-            window.addEventListener('scroll', () => {
-                document.body.style.backgroundPosition = `0 ${(window.scrollY/10)%100}%`;
-            });
-
-            // Scroll suave para todos los links del nav
-            const allNavLinks = document.querySelectorAll('a[href^="#"]');
-            allNavLinks.forEach(link => {
+            // --- SCROLL SUAVE Y CIERRE DE MENÚ ---
+            document.querySelectorAll('a[href^="#"]').forEach(link => {
                 link.addEventListener('click', function(e) {
                     const targetId = this.getAttribute('href');
-                    if (targetId.startsWith('#') && targetId.length > 1) {
+                    if (targetId.length > 1) {
                         e.preventDefault();
                         const targetElement = document.querySelector(targetId);
                         if (targetElement) {
                             const headerOffset = document.querySelector('header').offsetHeight;
                             const elementPosition = targetElement.getBoundingClientRect().top;
                             const offsetPosition = elementPosition + window.pageYOffset - headerOffset;
+                            
                             window.scrollTo({ top: offsetPosition, behavior: 'smooth' });
-                        }
-                        // Ocultar menú móvil después del click
-                        if (mobileMenu && !mobileMenu.classList.contains('hidden')) {
-                            mobileMenu.classList.add('hidden');
-                            mobileMenuButton.setAttribute('aria-expanded', 'false');
+
+                            if (mobileMenu && !mobileMenu.classList.contains('hidden')) {
+                                mobileMenu.classList.add('hidden');
+                                mobileMenuButton.setAttribute('aria-expanded', 'false');
+                            }
                         }
                     }
                 });
             });
 
-            // Observer para animaciones generales en scroll
-            const animationObserver = new IntersectionObserver((entries) => {
+            // --- INTERSECTION OBSERVER PARA ANIMACIONES ---
+            const animationObserver = new IntersectionObserver((entries, observer) => {
                 entries.forEach(entry => {
                     if (entry.isIntersecting) {
                         entry.target.classList.add('is-visible');
+                        // Opcional: dejar de observar una vez que es visible para no repetir la animación
+                        // observer.unobserve(entry.target); 
                     }
                 });
             }, { threshold: 0.1 });
-            document.querySelectorAll('.animate-on-scroll').forEach(el => animationObserver.observe(el));
-            document.querySelectorAll('.main-section').forEach(el => animationObserver.observe(el));
 
-            // Observer específico para la línea de tiempo
-            const timelineObserver = new IntersectionObserver((entries, observer) => {
-                entries.forEach(entry => {
-                    if (entry.isIntersecting) {
-                        entry.target.classList.add('is-visible');
-                    }
-                });
-            }, { threshold: 0.5 });
-            document.querySelectorAll('.timeline-line, .timeline-point').forEach(el => timelineObserver.observe(el));
-
-            // Observer para la navegación activa
-            const sections = document.querySelectorAll('.main-section');
+            document.querySelectorAll('.animate-on-scroll, .main-section, .timeline-line, .timeline-point').forEach(el => {
+                animationObserver.observe(el);
+            });
+            
+            // --- OBSERVER PARA NAVEGACIÓN ACTIVA ---
+            const sections = document.querySelectorAll('section[id]');
             const navLinks = document.querySelectorAll('.nav-link');
             const navObserver = new IntersectionObserver((entries) => {
                 entries.forEach(entry => {
                     if (entry.isIntersecting) {
+                        const currentSectionId = entry.target.id;
                         navLinks.forEach(link => {
-                            link.classList.remove('nav-link-active');
-                            if(link.getAttribute('href').substring(1) === entry.target.id) {
-                                link.classList.add('nav-link-active');
-                            }
+                            link.classList.toggle('nav-link-active', link.getAttribute('href').substring(1) === currentSectionId);
                         });
                     }
                 });
-            }, { rootMargin: "-40% 0px -60% 0px" });
-            sections.forEach(section => navObserver.observe(section));
+            }, { rootMargin: "-40% 0px -59% 0px" }); // Ajustado para mejor detección
 
-            // Script para el efecto de brillo en tarjetas
+            sections.forEach(section => {
+                if(section.id) navObserver.observe(section);
+            });
+
+            // --- EFECTO DE BRILLO EN TARJETAS ---
             document.querySelectorAll('.interactive-card').forEach(card => {
                 card.onmousemove = e => {
                     const rect = card.getBoundingClientRect();
